@@ -3,21 +3,319 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SILVERSTAR's PORTFOILO</title>
+    <title>SILVERSTAR's PORTFOLIO</title>
+
+    <link rel="stylesheet" href="./src/styles/reset.css" />
+    <link rel="stylesheet" href="./src/styles/common.css" />
+    <link rel="stylesheet" href="./src/styles/main.css" />
+    <link rel="stylesheet" href="./src/styles/cursor.css" />
   </head>
   <body>
+    <div class="custom-cursor" id="cursor"></div>
+
     <header>
-      <h1>PORTFOLIO</h1>
-      <nav>
-        <ul>
-          <li>main</li>
-          <li>info</li>
-          <li></li>
-          <li></li>
+      <nav class="menu" aria-label="메인 메뉴">
+        <a class="menu-trigger" href="#">
+          <span></span>
+          <span></span>
+          <span></span>
+        </a>
+
+        <ul class="menu-list">
+          <li class="menu-item"><a href="#main">Home</a></li>
+          <li class="menu-item"><a href="#about">About</a></li>
+          <li class="menu-item"><a href="#uxui-design">UX/UI design</a></li>
+          <li class="menu-item"><a href="#web-design">web design</a></li>
+          <li class="menu-item"><a href="#editorial-design">Editorial Design</a></li>
         </ul>
       </nav>
     </header>
-    <section></section>
-    <footer></footer>
+
+    <aside>
+      <nav aria-label="섹션 바로가기">
+        <ul>
+          <li><a href="#main">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#uxui-design">UX/UI design</a></li>
+          <li><a href="#web-design">web design</a></li>
+          <li><a href="#editorial-design">Editorial Design</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <section id="main" class="page main">
+      <!-- 베지어곡선 배경 -->
+      <div class="bezier-background">
+        <svg viewBox="0 0 1920 1080" preserveAspectRatio="xMaxYMid slice">
+          <!-- 첫 번째 큰 원 호 (상단 중앙에서 오른쪽 위로) -->
+          <path
+            class="circle-path circle-1"
+            d="M 600 0 
+              A 1000 1000 0 0 0 1920 270"
+          />
+
+          <!-- 두 번째 큰 원 호 (오른쪽 끝에서 아래로) -->
+          <path
+            class="circle-path circle-2"
+            d="M 1720 0
+              A 1000 1000 0 0 0 1600 1080"
+          />
+        </svg>
+      </div>
+
+      <h1>
+        <span class="sub-txt">CHOEUNBYEOL’s</span>
+        <span class="main-txt">PORTFOLIO</span>
+      </h1>
+
+      <button type="button" class="scroll-next" aria-label="다음 섹션으로 이동">
+        <img src="./src/assets/arrow.png" alt="" aria-hidden="true" />
+      </button>
+    </section>
+
+    <section id="about" class="page about">
+      <h2 class="sr-only">프로필 페이지</h2>
+
+      <div class="about-info">
+        <div class="info-profile">
+          <img src="./src/assets/me.png" alt="조은별 프로필 사진" />
+          <p class="profile-name"><span>CHO</span>EUNBYEOL</p>
+          <a href="mailto:silver_star94@naver.com" class="profile-email">silver_star94@naver.com</a>
+        </div>
+
+        <div class="info-details">
+          <div class="details-skills">
+            <h3 class="info-title">SKILLS</h3>
+
+            <ul class="skill-list-out">
+              <li class="skill-item-out">
+                <ul class="skill-list-in">
+                  <li class="skill-item-in">
+                    <div class="skill-ring" data-skill="figma" data-percent="87" aria-label="Figma 숙련도 87%">
+                      <svg class="ring" viewBox="0 0 120 120" aria-hidden="true">
+                        <circle class="ring-bg" cx="60" cy="60" r="50"></circle>
+                        <circle class="ring-progress" cx="60" cy="60" r="50"></circle>
+                      </svg>
+
+                      <span class="skill-label">Figma</span>
+                      <span class="sr-only">87%</span>
+                    </div>
+                  </li>
+
+                  <li class="skill-item-in">
+                    <div class="skill-ring" data-skill="ps" data-percent="97" aria-label="포토샵 숙련도 97%">
+                      <svg class="ring" viewBox="0 0 120 120" aria-hidden="true">
+                        <circle class="ring-bg" cx="60" cy="60" r="50"></circle>
+                        <circle class="ring-progress" cx="60" cy="60" r="50"></circle>
+                      </svg>
+
+                      <span class="skill-label">Ps</span>
+                      <span class="sr-only">97%</span>
+                    </div>
+                  </li>
+
+                  <li class="skill-item-in">
+                    <div class="skill-ring" data-skill="ai" data-percent="97" aria-label="일러스트레이터 숙련도 97%">
+                      <svg class="ring" viewBox="0 0 120 120" aria-hidden="true">
+                        <circle class="ring-bg" cx="60" cy="60" r="50"></circle>
+                        <circle class="ring-progress" cx="60" cy="60" r="50"></circle>
+                      </svg>
+
+                      <span class="skill-label">Ai</span>
+                      <span class="sr-only">97%</span>
+                    </div>
+                  </li>
+                </ul>
+              </li>
+
+              <li class="skill-item-out">
+                <ul class="skill-list-in">
+                  <li class="skill-item-in">
+                    <div class="skill-ring" data-skill="html" data-percent="90" aria-label="HTML 숙련도 90%">
+                      <svg class="ring" viewBox="0 0 120 120" aria-hidden="true">
+                        <circle class="ring-bg" cx="60" cy="60" r="50"></circle>
+                        <circle class="ring-progress" cx="60" cy="60" r="50"></circle>
+                      </svg>
+
+                      <span class="skill-label">HTML</span>
+                      <span class="sr-only">90%</span>
+                    </div>
+                  </li>
+
+                  <li class="skill-item-in">
+                    <div class="skill-ring" data-skill="css" data-percent="90" aria-label="CSS 숙련도 90%">
+                      <svg class="ring" viewBox="0 0 120 120" aria-hidden="true">
+                        <circle class="ring-bg" cx="60" cy="60" r="50"></circle>
+                        <circle class="ring-progress" cx="60" cy="60" r="50"></circle>
+                      </svg>
+
+                      <span class="skill-label">CSS</span>
+                      <span class="sr-only">90%</span>
+                    </div>
+                  </li>
+
+                  <li class="skill-item-in">
+                    <div class="skill-ring" data-skill="js" data-percent="18" aria-label="자바스크립트 숙련도 18%">
+                      <svg class="ring" viewBox="0 0 120 120" aria-hidden="true">
+                        <circle class="ring-bg" cx="60" cy="60" r="50"></circle>
+                        <circle class="ring-progress" cx="60" cy="60" r="50"></circle>
+                      </svg>
+
+                      <span class="skill-label">JS</span>
+                      <span class="sr-only">18%</span>
+                    </div>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+
+          <div class="details-activities">
+            <h3 class="info-title">ACTIVITIES</h3>
+
+            <ul class="career-list">
+              <li class="career-item">
+                <strong class="career-period">2023.04 ~ 2025.04</strong>
+                <p class="career-desc">맨테크윈 삼성전자 파견계약직 근무</p>
+              </li>
+              <li class="career-item">
+                <strong class="career-period">2021.08 ~ 2022.08</strong>
+                <p class="career-desc">EM실천 디자인사업팀 근무</p>
+              </li>
+              <li class="career-item">
+                <strong class="career-period">2020.06 ~ 2021.07</strong>
+                <p class="career-desc">디자인아이엠 편집팀 근무</p>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="about-footer">
+        <p>
+          관찰과 상상, 그리고 집요한 실행을 바탕으로 익숙한 경험을 새롭게 바라보고 다듬어가며, 더 나은 흐름과 순간을
+          탐구하는 <strong>디자이너 조은별</strong>입니다.
+        </p>
+      </div>
+    </section>
+
+    <section id="uxui-design" class="page uxui">
+      <h2 class="section-title">
+        <span class="sr-only">UX/UI 디자인 포트폴리오</span>
+        UX/UI DESIGN
+      </h2>
+
+      <ul class="project-list">
+        <li class="project-item">
+          <button type="button" class="project-trigger" data-dialog="dlg-uxui-01" aria-haspopup="dialog">
+            <img src="./src/assets/uxui_01.png" alt="MOEMO 감정일기 앱" class="project-thumb" />
+          </button>
+          <p class="project-name">MOEMO - 감정일기앱</p>
+        </li>
+      </ul>
+    </section>
+
+    <section id="web-design" class="page web">
+      <h2 class="section-title">
+        <span class="sr-only">웹디자인 포트폴리오</span>
+        WEB DESIGN
+      </h2>
+
+      <ul class="project-list">
+        <li class="project-item">
+          <button type="button" class="project-trigger" data-dialog="dlg-web-01" aria-haspopup="dialog">
+            <img src="./src/assets/web_01.png" alt="모두의부엌 - 레시피공유사이트" class="project-thumb" />
+          </button>
+          <p class="project-name">모두의부엌 - 레시피공유사이트</p>
+        </li>
+
+        <li class="project-item">
+          <button type="button" class="project-trigger" data-dialog="dlg-web-02" aria-haspopup="dialog">
+            <img src="./src/assets/web_02.png" alt="크리스피크림도넛 리뉴얼" class="project-thumb" />
+          </button>
+          <p class="project-name">크리스피크림도넛 리뉴얼</p>
+        </li>
+
+        <li class="project-item">
+          <button type="button" class="project-trigger" data-dialog="dlg-web-03" aria-haspopup="dialog">
+            <img src="./src/assets/web_03.png" alt="인디고" class="project-thumb" />
+          </button>
+          <p class="project-name">인디고</p>
+        </li>
+
+        <li class="project-item">
+          <button type="button" class="project-trigger" data-dialog="dlg-web-04" aria-haspopup="dialog">
+            <img src="./src/assets/web_04.png" alt="레귤러볼드" class="project-thumb" />
+          </button>
+          <p class="project-name">레귤러볼드</p>
+        </li>
+      </ul>
+    </section>
+
+    <section id="editorial-design" class="page editorial">
+      <h2 class="section-title">
+        <span class="sr-only">편집디자인 포트폴리오</span>
+        EDITORIAL DESIGN
+      </h2>
+
+      <ul class="project-list">
+        <li class="project-item">
+          <button type="button" class="project-trigger" data-dialog="dlg-editorial-01" aria-haspopup="dialog">
+            <img src="./src/assets/edit_01.png" alt="상세페이지" class="project-thumb" />
+          </button>
+          <p class="project-name">상세페이지</p>
+        </li>
+
+        <li class="project-item">
+          <button type="button" class="project-trigger" data-dialog="dlg-editorial-02" aria-haspopup="dialog">
+            <img src="./src/assets/edit_02.png" alt="리플렛" class="project-thumb" />
+          </button>
+          <p class="project-name">리플렛</p>
+        </li>
+
+        <li class="project-item">
+          <button type="button" class="project-trigger" data-dialog="dlg-editorial-03" aria-haspopup="dialog">
+            <img src="./src/assets/edit_03.png" alt="카달로그" class="project-thumb" />
+          </button>
+          <p class="project-name">카달로그</p>
+        </li>
+      </ul>
+    </section>
+
+    <div class="modal">
+      <dialog id="dlg-uxui-01" class="project-modal">
+        <button type="button" class="dialog-close" data-close aria-label="닫기">
+          <img src="./src/assets/close_btn.svg" alt="" aria-hidden="true" />
+        </button>
+
+        <div class="modal-inner">
+          <div class="modal-header">
+            <h3 class="dialog-title">MOEMO - 감정일기앱</h3>
+
+            <ul class="project-meta">
+              <li class="project-meta-item">작업기간 : 2025.10 ~ 2025.11</li>
+              <li class="project-meta-item">작업툴 : Figma,Photoshop,Illustrator,AI</li>
+              <li class="project-meta-item">기여도 : 100%</li>
+            </ul>
+          </div>
+
+          <div class="modal-body">
+            <img src="./src/assets/moemo-project.jpg" alt="MOEMO - 감정일기앱" class="dialog-image" />
+          </div>
+        </div>
+      </dialog>
+    </div>
+
+    <script type="module" src="./src/js/cursor.js"></script>
+    <script type="module" src="./src/js/main.js"></script>
+
+    <!-- 커서 효과 -->
+    <!-- <script src="https://unpkg.com/cursor-effects@latest/dist/browser.js"></script>
+    <script>
+      new cursoreffects.fairyDustCursor({
+        colors: ['#aaaaaa','#2C90DD', '#CF7700', '#DD5036','#28A0CD','#F7C42E'],
+        fairySymbol: '★',
+      });
+    </script> -->
   </body>
 </html>

@@ -1,0 +1,81 @@
+body {
+  cursor: none; /* 기존 커서 숨기기 */
+}
+
+/* 1. 모든 요소(버튼, 링크 등)에서 기본 손가락 모양 커서를 제거 */
+*,
+a,
+button,
+input,
+label,
+[role='button'] {
+  cursor: none !important;
+}
+
+.custom-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 1.6vw;
+  height: 1.6vw;
+  background: url('../assets/pen_cursor.svg') no-repeat center / 100%;
+  background-size: cover;
+  pointer-events: none; /* 커서가 클릭을 방해하지 않도록 함 */
+  z-index: 9999;
+}
+
+/* 물결 파장 */
+/* 이중 파장 공통 */
+.cursor-ripple {
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%) scale(0.2);
+  opacity: 0.8;
+}
+
+/* 1차 파장 (안쪽) */
+.cursor-ripple.primary {
+  width: 3vw;
+  height: 3vw;
+  background-color: rgba(255, 255, 255, 0.5);
+  /* border: 1px solid rgba(255, 255, 255, 0.7); */
+  animation: ripplePrimary 1.6s ease-out forwards;
+}
+
+/* 2차 파장 (바깥) */
+.cursor-ripple.secondary {
+  width: 7vw;
+  height: 7vw;
+  background-color: rgba(255, 255, 255, 0.2);
+  /* border: 1px solid rgba(255, 255, 255, 0.5); */
+  animation: rippleSecondary 1s ease-out forwards;
+  animation-delay: 0.08s;
+}
+
+/* 밝은 배경 대응 */
+body.is-light .cursor-ripple.primary {
+  background-color: rgba(255, 91, 247, 0.2);
+  /* border: 1px solid rgba(0, 0, 0, 0.2); */
+}
+
+body.is-light .cursor-ripple.secondary {
+  background-color: rgba(255, 111, 231, 0.1);
+  /* border: 1px solid rgba(0, 0, 0, 0.12); */
+}
+
+/* 애니메이션 */
+@keyframes ripplePrimary {
+  to {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0;
+  }
+}
+
+@keyframes rippleSecondary {
+  to {
+    transform: translate(-50%, -50%) scale(1.15);
+    opacity: 0;
+  }
+}

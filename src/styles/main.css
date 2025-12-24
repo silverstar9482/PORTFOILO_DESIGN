@@ -1,0 +1,660 @@
+/* header */
+header {
+  max-width: 192rem;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 4vw;
+
+  position: absolute;
+  top: 0;
+}
+
+.menu-trigger,
+.menu-trigger span {
+  display: inline-block;
+  transition: all 0.3s;
+}
+
+/* 메뉴 */
+.menu {
+  position: fixed;
+  top: 4vw;
+  right: 2vw;
+  z-index: 888;
+}
+
+.menu-trigger {
+  position: fixed;
+  top: 4vw;
+  right: 4vw;
+  width: 1.4vw;
+  height: 1.4vw;
+  z-index: 999;
+}
+
+.menu-trigger span {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 0.4rem;
+  background-color: #fff;
+  border-radius: 500rem;
+}
+
+/* about 페이지: 검정색 */
+.menu-trigger.dark span {
+  background-color: #000;
+}
+
+/* 메뉴 열렸을 때: 검정색 */
+.menu-trigger.active span {
+  background-color: #000;
+}
+
+/* about 페이지에서 메뉴 열렸을 때: 흰색 */
+.menu-trigger.dark.active span {
+  background-color: #fff;
+}
+
+/* about 페이지: 메뉴 리스트 색상 반전 */
+.menu.dark .menu-list {
+  background: rgba(0, 0, 0, 0.9);
+}
+
+.menu.dark .menu-list li {
+  color: #fff;
+}
+
+.menu-trigger span:nth-of-type(1) {
+  top: 0;
+}
+.menu-trigger span:nth-of-type(2) {
+  top: 50%;
+  transform: translateY(-50%);
+}
+.menu-trigger span:nth-of-type(3) {
+  bottom: 0;
+}
+
+/* menu 버튼 애니메이션 효과 */
+.menu-trigger.active span:nth-of-type(1) {
+  top: 50%;
+  transform: translateY(-50%) rotate(-35deg);
+}
+
+.menu-trigger.active span:nth-of-type(2) {
+  top: 50%;
+  transform: translateY(-50%) rotate(90deg);
+}
+
+.menu-trigger.active span:nth-of-type(3) {
+  top: 50%;
+  transform: translateY(-50%) rotate(35deg);
+}
+
+/* 메뉴 리스트 */
+.menu-list {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-end;
+  background: rgba(250, 250, 250, 0.7);
+  padding: 6.4vw 2.4vw 0.7vw 2.4vw;
+  margin-top: -2vw;
+  border-radius: 4rem;
+  gap: 1.4vw;
+  text-align: right;
+  font-size: 1.2vw;
+  text-transform: uppercase;
+
+  /* 초기 상태 */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-20px) scaleY(0.95);
+  transform-origin: top;
+
+  transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.menu-list li {
+  color: #000;
+}
+
+/* 열릴 때 */
+.menu.is-open .menu-list {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scaleY(1);
+}
+
+/* 닫힐 때도 애니메이션 유지 */
+.menu.is-closing .menu-list {
+  opacity: 0;
+  transform: translateY(-20px) scaleY(0.95);
+}
+
+/* 공통 */
+.page {
+  width: 100%;
+  height: 100vh;
+  margin: 0 auto;
+}
+
+nav {
+  font-weight: 700;
+}
+
+/* main */
+.main {
+  text-align: left;
+  padding-left: 10rem;
+  padding-top: 10rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: left;
+
+  h1 {
+    width: 100%;
+
+    .main-txt {
+      font-size: 8vw;
+    }
+
+    .sub-txt {
+      display: block;
+      font-size: 1.4vw;
+      font-weight: 300;
+      margin-bottom: 1rem;
+    }
+  }
+}
+
+/* scroll-next */
+.scroll-next {
+  width: 60px;
+  height: 60px;
+  margin-top: 50px;
+  animation: bounce 2.5s ease-in-out infinite; /* 2s에서 2.5s로 */
+  cursor: pointer;
+
+  img {
+    width: 100%;
+  }
+}
+
+@keyframes bounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-20px);
+  }
+  60% {
+    transform: translateY(-10px);
+  }
+}
+
+/* 베지어 곡선 배경 */
+.bezier-background {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.bezier-background svg {
+  width: 100%;
+  height: 100%;
+}
+
+.circle-path {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.5);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-dasharray: 1500;
+  stroke-dashoffset: 1500;
+}
+
+.circle-1 {
+  animation: drawCircle 5s ease-in-out infinite;
+}
+
+.circle-2 {
+  stroke-dasharray: 2000;
+  stroke-dashoffset: 2000;
+  animation: drawCircle2 5s ease-in-out infinite;
+  animation-delay: 1.4s;
+}
+
+/* 애니메이션 */
+@keyframes drawCircle {
+  0% {
+    stroke-dashoffset: 1500;
+  }
+  40% {
+    stroke-dashoffset: 0;
+  }
+  60% {
+    stroke-dashoffset: 0; /* 0.5초간 유지 (멈춤) */
+  }
+  100% {
+    stroke-dashoffset: -1500;
+  }
+}
+
+@keyframes drawCircle2 {
+  0% {
+    stroke-dashoffset: 2000;
+  }
+  40% {
+    stroke-dashoffset: 0;
+  }
+  55% {
+    stroke-dashoffset: 0; /* 멈춤 */
+  }
+  100% {
+    stroke-dashoffset: -2000;
+  }
+}
+
+/* 사이드바 */
+aside {
+  display: none;
+  position: fixed;
+  left: 2%;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 888;
+}
+
+/* Home 제외한 페이지에서만 표시 */
+body.show-aside aside {
+  display: block;
+}
+
+/* dot 공통 */
+aside ul {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+}
+
+aside a {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  display: block;
+  font-size: 0;
+  background-color: #555;
+}
+
+/* 활성 dot (기본 다크 배경) */
+aside a.is-active {
+  background-color: #fff;
+}
+
+/* About (밝은 배경) */
+body.is-light aside a {
+  background-color: #e5e5e5;
+}
+
+body.is-light aside a.is-active {
+  background-color: #000;
+}
+
+/* About */
+.about {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #fff;
+}
+/* about 배경 전체 흰색 */
+#about {
+  box-shadow: 0 0 0 100vmax #fff; /* 추가: 양옆으로 흰색 확장 */
+  clip-path: inset(0 -100vmax); /* 위아래는 자르고 좌우만 확장 */
+}
+
+.about-info {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 0 20rem;
+  padding-top: 5vw;
+}
+
+.info-profile {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: left;
+
+  p,
+  span,
+  .profile-email {
+    color: #000;
+  }
+
+  img {
+    width: 18.5vw;
+  }
+  p {
+    font-size: 3.2vw;
+    font-weight: 600;
+    margin-top: 1.5vw;
+  }
+  span {
+    display: block;
+    font-weight: 600;
+  }
+
+  .profile-email {
+    font-size: 1.28vw;
+    position: relative;
+    padding-left: 2.4vw;
+    margin-top: 1.2vw;
+  }
+  .profile-email::before {
+    content: '';
+    width: 1.8vw;
+    height: 1.4vw;
+    background: url('../assets/mail-icon.svg') no-repeat center / 100%;
+    position: absolute;
+    left: 0;
+  }
+}
+
+.info-details {
+  display: flex;
+  flex-direction: column;
+  align-items: right;
+  gap: 3vw;
+
+  /* details 공통 제목 */
+  .info-title {
+    color: #000;
+    font-size: 2vw;
+    font-weight: 600;
+    margin-bottom: 2vw;
+  }
+
+  /* 스킬 */
+  .details-skills {
+    display: flex;
+    flex-direction: column;
+
+    .skill-list-out {
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
+    }
+    .skill-list-in {
+      display: flex;
+      gap: 3rem;
+    }
+
+    /* 각 스킬 */
+    .skill-ring {
+      width: 7vw;
+      height: 7vw;
+      position: relative;
+      text-align: center;
+    }
+
+    /* SVG */
+    .skill-ring svg {
+      width: 100%;
+      height: 100%;
+      transform: rotate(-90deg); /* 시작점을 위로 */
+    }
+
+    /* 배경 원 */
+    .ring-bg {
+      fill: none;
+      stroke: #f1f1f1;
+      stroke-width: 17;
+    }
+
+    /* 퍼센트 원 */
+    .ring-progress {
+      fill: none;
+      stroke-width: 17;
+      /* stroke-linecap: round; */
+      stroke-dasharray: 327; /* 2π × 52 */
+      stroke-dashoffset: 327;
+      transition: stroke-dashoffset 1s ease;
+    }
+
+    /* 스킬 텍스트 */
+    .skill-label {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 1vw;
+      font-weight: 600;
+      color: #000;
+    }
+
+    /* 스킬 색상 */
+    .skill-ring[data-skill='figma'] .ring-progress {
+      stroke: #333333;
+    }
+
+    .skill-ring[data-skill='ps'] .ring-progress {
+      stroke: #2c90dd;
+    }
+
+    .skill-ring[data-skill='ai'] .ring-progress {
+      stroke: #cf7700;
+    }
+
+    .skill-ring[data-skill='html'] .ring-progress {
+      stroke: #dd5036;
+    }
+
+    .skill-ring[data-skill='css'] .ring-progress {
+      stroke: #28a0cd;
+    }
+
+    .skill-ring[data-skill='js'] .ring-progress {
+      stroke: #f7c42e;
+    }
+  }
+
+  /* 경력사항 */
+  .career-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2vw;
+
+    .career-item {
+      display: flex;
+      gap: 1vw;
+      strong,
+      p {
+        color: #888;
+        font-size: 1vw;
+      }
+    }
+  }
+}
+
+.about-footer {
+  width: 100%;
+  background-color: #000;
+  padding: 4.5vmin 0;
+  font-size: 1vw;
+  text-align: center;
+  box-shadow: 0 0 0 100vmax #000;
+  clip-path: inset(0 -100vmax);
+
+  p {
+    display: inline-block;
+    text-align: center;
+    font-weight: 100;
+
+    position: relative;
+  }
+
+  strong {
+    font-weight: 700;
+  }
+  p::before {
+    content: '';
+    width: 2vw;
+    height: 2vw;
+    background: url('../assets/double\ quote_L.svg') no-repeat center / 100%;
+    position: absolute;
+    top: 50%;
+    left: -3.2vw;
+    transform: translateY(-50%);
+  }
+
+  p::after {
+    content: '';
+    width: 2vw;
+    height: 2vw;
+    background: url('../assets/double\ quote_R.svg') no-repeat center / 100%;
+    position: absolute;
+    top: 50%;
+    right: -3.2vw;
+    transform: translateY(-50%);
+  }
+}
+
+/* uxui,web,editorial design */
+
+/* 공통 */
+.uxui,
+.web,
+.editorial {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.section-title {
+  font-size: 2.8vw;
+  font-weight: 600;
+}
+.project-list {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2vw;
+}
+
+.project-list .project-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 3vw;
+  gap: 1vw;
+
+  .project-trigger img {
+    width: 100%;
+    border-radius: 1.2vw;
+    box-shadow: 8px 8px 50px 0px rgba(0, 0, 0, 0.5);
+    object-fit: cover;
+  }
+
+  p {
+    font-size: 0.8vw;
+    font-weight: 200;
+    color: #ccc;
+  }
+}
+
+/* 배경 */
+.uxui {
+  background: url('../assets/bg_01.png') no-repeat center / 100%;
+}
+.web {
+  background: url('../assets/bg_02.png') no-repeat center / 100%;
+}
+.editorial {
+  background: url('../assets/bg_03.png') no-repeat center / 100%;
+}
+
+/* modal */
+.modal {
+  width: 100%;
+
+  .modal-body {
+    width: 100%;
+
+    img {
+      width: 100%;
+    }
+  }
+}
+
+dialog.project-modal {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  padding: 0;
+  border: none;
+  background: transparent;
+  z-index: 9999;
+}
+
+/* backdrop */
+dialog.project-modal::backdrop {
+  background: rgba(0, 0, 0, 0.85);
+}
+
+/* 실제 콘텐츠 영역 */
+dialog.project-modal .modal-inner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(1100px, 인정하자면 92vw);
+  max-height: 90vh;
+  overflow-y: auto;
+
+  background: #000;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+}
+
+/* 이미지 */
+dialog.project-modal img {
+  width: 100%;
+  display: block;
+  border-radius: 0 0 16px 16px;
+}
+
+/* 헤더 */
+.modal-header {
+  padding: 24px 32px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dialog-title {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.project-meta {
+  margin-top: 12px;
+  font-size: 14px;
+  color: #aaa;
+}
