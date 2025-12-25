@@ -25,4 +25,4 @@
 
 - **HTML5 / CSS3** : 레이아웃, 스타일링 직접 구현
 - **JavaScript** : 인터랙션 구현 및 구조 개선
-- **GitHub Pages** : 배포
+- **GitHub** : 소스 코드 관리 및 배포
