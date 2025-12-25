@@ -4,9 +4,17 @@ const menuLinks = document.querySelectorAll('.menu-list a');
 const asideLinks = document.querySelectorAll('aside a');
 const scrollNext = document.querySelector('.scroll-next');
 const sections = document.querySelectorAll('.page');
+// 모달
+const modal = document.querySelector('.modal');
+const overlay = modal.querySelector('.modal-overlay');
+const closeBtn = modal.querySelector('.modal-close-btn');
+const topBtn = modal.querySelector('.modal-top-btn');
+const content = modal.querySelector('.modal-content');
+const modalContainer = modal.querySelector('.modal-container');
 
 let currentIndex = 0;
 let isScrolling = false;
+let isModalOpen = false;
 
 // 메뉴 닫기 공통 함수
 const closeMenu = () => {
@@ -68,12 +76,10 @@ const updateLayoutState = (index) => {
   if (isHome) {
     document.body.classList.remove('is-light');
 
-    // 🔥 Home에서는 메뉴 상태 완전 초기화
+    // Home에서는 메뉴 상태 완전 초기화
     menu.classList.remove('dark');
-    menuTrigger.classList.remove('dark');
-    menu.classList.remove('is-open');
-    menu.classList.remove('is-closing');
-    menuTrigger.classList.remove('active');
+    menu.classList.remove('dark', 'is-open', 'is-closing');
+    menuTrigger.classList.remove('dark', 'active');
 
     return;
   }
@@ -112,13 +118,19 @@ const goToSection = (index) => {
   }, 900);
 };
 
-// 스크롤 효과
+// 스크롤 효과 (throttle 적용)
+let wheelThrottle = false;
 window.addEventListener(
   'wheel',
   (event) => {
+    if (isModalOpen) return; // 모달 열렸을 때 메인 스크롤 차단
+
     event.preventDefault();
-    if (isScrolling) return;
+    if (isScrolling || wheelThrottle) return;
     if (Math.abs(event.deltaY) < 40) return;
+
+    wheelThrottle = true;
+    setTimeout(() => (wheelThrottle = false), 100);
 
     closeMenu();
     currentIndex = getCurrentSectionIndex();
@@ -136,20 +148,18 @@ window.addEventListener(
 
 // 메뉴 효과 //
 // 메뉴 열기 & 닫기
-menuTrigger.addEventListener('click', (event) => {
-  event.preventDefault();
+menuTrigger.addEventListener('click', (e) => {
+  e.preventDefault();
 
   // 햄버거 버튼 애니메이션
-  event.currentTarget.classList.toggle('active');
+  menuTrigger.classList.toggle('active');
 
   if (menu.classList.contains('is-open')) {
     closeMenu();
   } else {
     // 열기 (애니메이션 리셋)
     menu.classList.remove('is-closing');
-    requestAnimationFrame(() => {
-      menu.classList.add('is-open');
-    });
+    requestAnimationFrame(() => menu.classList.add('is-open'));
   }
 });
 
@@ -158,11 +168,7 @@ document.addEventListener('click', (e) => {
   // 메뉴가 열려있지 않으면 무시
   if (!menu.classList.contains('is-open')) return;
 
-  const isClickInsideMenu = menu.contains(e.target);
-  const isClickOnTrigger = menuTrigger.contains(e.target);
-
-  // 메뉴 내부나 햄버거 버튼 클릭이면 닫지 않음
-  if (isClickInsideMenu || isClickOnTrigger) return;
+  if (menu.contains(e.target) || menuTrigger.contains(e.target)) return;
 
   // 그 외 영역 클릭 → 메뉴 닫기
   closeMenu();
@@ -214,37 +220,47 @@ window.addEventListener('scroll', () => {
 });
 
 // modal
-/* 모달 열기 */
-document.querySelectorAll('.project-trigger').forEach((button) => {
-  button.addEventListener('click', () => {
-    const dialog = document.getElementById(button.dataset.dialog);
-    if (dialog) {
-      dialog.showModal();
-      document.body.style.overflow = 'hidden';
-    }
+// 프로젝트 썸네일 클릭 → 모달 열기
+document.querySelectorAll('.project-trigger').forEach((trigger) => {
+  trigger.addEventListener('click', () => {
+    openModal();
   });
 });
 
-/* 모달 닫기 (닫기 버튼) */
-document.querySelectorAll('dialog.project-modal').forEach((dialog) => {
-  dialog.addEventListener('click', (e) => {
-    const inner = dialog.querySelector('.modal-inner');
+const openModal = () => {
+  modal.classList.add('is-open');
+  document.body.style.overflow = 'hidden';
+  modalContainer.scrollTop = 0;
+  isModalOpen = true;
+};
 
-    // modal-inner 바깥 클릭이면 닫기
-    if (!inner.contains(e.target)) {
-      dialog.close();
-      document.body.style.overflow = '';
-    }
-  });
-});
+const closeModal = () => {
+  modal.classList.remove('is-open');
+  document.body.style.overflow = '';
+  modalContainer.scrollTop = 0;
+  isModalOpen = false;
+};
 
-/* ESC 키 닫기 */
-document.addEventListener('keydown', (e) => {
-  if (e.key !== 'Escape') return;
+// 배경 클릭 → 닫기
+overlay.addEventListener('click', closeModal);
 
-  const openDialog = document.querySelector('dialog[open]');
-  if (openDialog) {
-    openDialog.close();
-    document.body.style.overflow = '';
+// 모달 컨테이너 빈 영역 클릭 시 닫기 (content 외부 클릭 감지)
+modalContainer.addEventListener('click', (e) => {
+  // content 내부 클릭이 아닐 때만 닫기
+  if (e.target === modalContainer) {
+    closeModal();
   }
+});
+
+// 닫기 버튼
+closeBtn.addEventListener('click', closeModal);
+
+// 스크롤 → 탑버튼 표시
+modalContainer.addEventListener('scroll', () => {
+  topBtn.classList.toggle('is-visible', modalContainer.scrollTop > 200);
+});
+
+// 탑버튼 클릭
+topBtn.addEventListener('click', () => {
+  modalContainer.scrollTo({ top: 0, behavior: 'smooth' });
 });

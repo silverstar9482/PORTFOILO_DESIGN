@@ -283,14 +283,17 @@
     </section>
 
     <div class="modal">
-      <dialog id="dlg-uxui-01" class="project-modal">
-        <button type="button" class="dialog-close" data-close aria-label="닫기">
-          <img src="./src/assets/close_btn.svg" alt="" aria-hidden="true" />
-        </button>
+      <div class="modal-overlay"></div>
+      <button type="button" class="modal-close-btn" data-close aria-label="닫기">
+        <img src="./src/assets/close_btn.svg" alt="" aria-hidden="true" />
+      </button>
 
-        <div class="modal-inner">
+      <button type="button" class="modal-top-btn" aria-label="맨 위로 이동"></button>
+
+      <div class="modal-container">
+        <div class="modal-content">
           <div class="modal-header">
-            <h3 class="dialog-title">MOEMO - 감정일기앱</h3>
+            <h3 class="modal-title">MOEMO - 감정일기앱</h3>
 
             <ul class="project-meta">
               <li class="project-meta-item">작업기간 : 2025.10 ~ 2025.11</li>
@@ -303,11 +306,11 @@
             <img src="./src/assets/moemo-project.jpg" alt="MOEMO - 감정일기앱" class="dialog-image" />
           </div>
         </div>
-      </dialog>
+      </div>
     </div>
 
-    <script type="module" src="./src/js/cursor.js"></script>
     <script type="module" src="./src/js/main.js"></script>
+    <script type="module" src="./src/js/cursor.js"></script>
 
     <!-- 커서 효과 -->
     <!-- <script src="https://unpkg.com/cursor-effects@latest/dist/browser.js"></script>

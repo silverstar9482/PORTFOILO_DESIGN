@@ -9,7 +9,7 @@ button,
 input,
 label,
 [role='button'] {
-  cursor: none !important;
+  cursor: none;
 }
 
 .custom-cursor {
@@ -21,7 +21,17 @@ label,
   background: url('../assets/pen_cursor.svg') no-repeat center / 100%;
   background-size: cover;
   pointer-events: none; /* 커서가 클릭을 방해하지 않도록 함 */
-  z-index: 9999;
+  z-index: 99999;
+}
+
+/* 모달 내부 스크롤바 숨기기 (기능은 작동) */
+.project-modal::-webkit-scrollbar {
+  width: 0;
+  display: none;
+}
+.project-modal {
+  -ms-overflow-style: none; /* IE, Edge */
+  scrollbar-width: none; /* Firefox */
 }
 
 /* 물결 파장 */
@@ -48,20 +58,20 @@ label,
 .cursor-ripple.secondary {
   width: 7vw;
   height: 7vw;
-  background-color: rgba(255, 255, 255, 0.2);
-  /* border: 1px solid rgba(255, 255, 255, 0.5); */
+  background-color: rgba(255, 255, 255, 0.3);
+  /* border: 1px solid rgba(255, 255, 255, 0.6); */
   animation: rippleSecondary 1s ease-out forwards;
   animation-delay: 0.08s;
 }
 
 /* 밝은 배경 대응 */
 body.is-light .cursor-ripple.primary {
-  background-color: rgba(255, 91, 247, 0.2);
+  background-color: rgba(255, 91, 247, 0.3);
   /* border: 1px solid rgba(0, 0, 0, 0.2); */
 }
 
 body.is-light .cursor-ripple.secondary {
-  background-color: rgba(255, 111, 231, 0.1);
+  background-color: rgba(255, 111, 231, 0.2);
   /* border: 1px solid rgba(0, 0, 0, 0.12); */
 }
 
