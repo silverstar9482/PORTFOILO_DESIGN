@@ -567,11 +567,25 @@ body.is-light aside a.is-active {
   margin-top: 3vw;
   gap: 1vw;
 
+  .project-trigger {
+    width: 20rem;
+    height: 20rem;
+    overflow: hidden;
+    border-radius: 1.7vw;
+    box-shadow: 8px 8px 50px 0px rgba(0, 0, 0, 0.5);
+    background-color: #000;
+  }
+
   .project-trigger img {
     width: 100%;
-    border-radius: 1.2vw;
-    box-shadow: 8px 8px 50px 0px rgba(0, 0, 0, 0.5);
     object-fit: cover;
+
+    transform: scale(1);
+    transition: all 0.4s ease;
+  }
+  .project-trigger img:hover {
+    transform: scale(1.14);
+    /* opacity: 0.7; */
   }
 
   p {
@@ -648,7 +662,7 @@ body.is-light aside a.is-active {
 }
 /* 모달 - 프로젝트 내용 */
 .modal-content {
-  width: 100rem;
+  width: 120rem;
 }
 /* 헤더 */
 .modal-header {

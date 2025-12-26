@@ -123,9 +123,13 @@ let wheelThrottle = false;
 window.addEventListener(
   'wheel',
   (event) => {
-    if (isModalOpen) return; // 모달 열렸을 때 메인 스크롤 차단
+    if (isModalOpen) {
+      event.stopImmediatePropagation();
+      return;
+    }
 
     event.preventDefault();
+
     if (isScrolling || wheelThrottle) return;
     if (Math.abs(event.deltaY) < 40) return;
 
@@ -227,6 +231,15 @@ document.querySelectorAll('.project-trigger').forEach((trigger) => {
   });
 });
 
+// 모달 오픈 시 페이지 스크롤 차단
+modalContainer.addEventListener(
+  'wheel',
+  (e) => {
+    e.stopPropagation();
+  },
+  { passive: false }
+);
+
 const openModal = () => {
   modal.classList.add('is-open');
   document.body.style.overflow = 'hidden';
@@ -234,11 +247,25 @@ const openModal = () => {
   isModalOpen = true;
 };
 
+// 모달 닫을 때 페이지 스크롤 관성 차단
 const closeModal = () => {
   modal.classList.remove('is-open');
   document.body.style.overflow = '';
   modalContainer.scrollTop = 0;
-  isModalOpen = false;
+
+  isModalOpen = true;
+
+  // 현재 섹션을 다시 정확히 맞춤
+  requestAnimationFrame(() => {
+    sections[currentIndex].scrollIntoView({
+      behavior: 'auto',
+      block: 'start',
+    });
+  });
+
+  setTimeout(() => {
+    isModalOpen = false;
+  }, 500);
 };
 
 // 배경 클릭 → 닫기
