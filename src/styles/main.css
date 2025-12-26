@@ -571,7 +571,8 @@ body.is-light aside a.is-active {
     width: 20rem;
     height: 20rem;
     overflow: hidden;
-    border-radius: 1.7vw;
+    /* border-radius: 1.7vw; */
+    border-radius: 3.4rem;
     box-shadow: 8px 8px 50px 0px rgba(0, 0, 0, 0.5);
     background-color: #000;
   }
@@ -662,7 +663,7 @@ body.is-light aside a.is-active {
 }
 /* 모달 - 프로젝트 내용 */
 .modal-content {
-  width: 120rem;
+  width: 100rem;
 }
 /* 헤더 */
 .modal-header {
@@ -695,7 +696,7 @@ body.is-light aside a.is-active {
   }
 
   .project-meta-item:nth-of-type(2) {
-    margin: 0 1rem 0 1rem;
+    margin: 0 1.4rem 0 1.4rem;
   }
 
   .project-meta-item:nth-of-type(3) {

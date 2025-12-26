@@ -11,6 +11,9 @@ const closeBtn = modal.querySelector('.modal-close-btn');
 const topBtn = modal.querySelector('.modal-top-btn');
 const content = modal.querySelector('.modal-content');
 const modalContainer = modal.querySelector('.modal-container');
+const modalTitle = modal.querySelector('.modal-title');
+const metaItems = modal.querySelectorAll('.project-meta-item');
+const modalImage = modal.querySelector('.modal-body img');
 
 let currentIndex = 0;
 let isScrolling = false;
@@ -123,27 +126,30 @@ let wheelThrottle = false;
 window.addEventListener(
   'wheel',
   (event) => {
+    // 모달이 열려있거나, 닫히는 중(isModalOpen이 true)일 때는 메인 스크롤 완전 차단
     if (isModalOpen) {
-      event.stopImmediatePropagation();
       return;
     }
 
+    // 기본 스크롤 방지
     event.preventDefault();
 
     if (isScrolling || wheelThrottle) return;
+
+    // 휠 강도 체크 (미세한 관성은 무시)
     if (Math.abs(event.deltaY) < 40) return;
 
     wheelThrottle = true;
     setTimeout(() => (wheelThrottle = false), 100);
 
     closeMenu();
+
+    // 인덱스 다시 확인
     currentIndex = getCurrentSectionIndex();
 
     if (event.deltaY > 0 && currentIndex < sections.length - 1) {
       goToSection(currentIndex + 1);
-    }
-
-    if (event.deltaY < 0 && currentIndex > 0) {
+    } else if (event.deltaY < 0 && currentIndex > 0) {
       goToSection(currentIndex - 1);
     }
   },
@@ -249,23 +255,26 @@ const openModal = () => {
 
 // 모달 닫을 때 페이지 스크롤 관성 차단
 const closeModal = () => {
+  // 애니메이션 시작
   modal.classList.remove('is-open');
   document.body.style.overflow = '';
-  modalContainer.scrollTop = 0;
 
-  isModalOpen = true;
+  // 모달을 닫을 때 현재 인덱스가 마지막 섹션임을 강제로 명시
+  // (모달 안에서 스크롤하다가 getCurrentSectionIndex가 잘못 계산되는 것 방지)
+  currentIndex = sections.length - 1;
 
-  // 현재 섹션을 다시 정확히 맞춤
-  requestAnimationFrame(() => {
-    sections[currentIndex].scrollIntoView({
-      behavior: 'auto',
-      block: 'start',
-    });
+  // 위치 고정
+  sections[currentIndex].scrollIntoView({
+    behavior: 'auto',
+    block: 'start',
   });
 
+  // 관성 스크롤 차단 시간 (500ms~800ms 정도로 넉넉히)
+  // 이 시간 동안은 wheel 이벤트 내부의 if(isModalOpen) 조건에 걸려 아무 일도 안 일어남
   setTimeout(() => {
     isModalOpen = false;
-  }, 500);
+    isScrolling = false; // 혹시나 남아있을 플래그 초기화
+  }, 800);
 };
 
 // 배경 클릭 → 닫기
@@ -290,4 +299,30 @@ modalContainer.addEventListener('scroll', () => {
 // 탑버튼 클릭
 topBtn.addEventListener('click', () => {
   modalContainer.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+// 프로젝트별 모달 내용 교체
+document.querySelectorAll('.project-trigger').forEach((trigger) => {
+  trigger.addEventListener('click', () => {
+    const title = trigger.dataset.title;
+    const period = trigger.dataset.period;
+    const tool = trigger.dataset.tool;
+    const rate = trigger.dataset.rate;
+    const image = trigger.dataset.image;
+
+    // 제목
+    modalTitle.textContent = title;
+
+    // 메타 정보
+    metaItems[0].textContent = `작업기간 : ${period}`;
+    metaItems[1].textContent = `작업툴 : ${tool}`;
+    metaItems[2].textContent = `기여도 : ${rate}`;
+
+    // 이미지
+    modalImage.src = image;
+    modalImage.alt = title;
+
+    // 모달 열기
+    openModal();
+  });
 });
