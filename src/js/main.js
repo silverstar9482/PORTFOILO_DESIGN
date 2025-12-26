@@ -4,7 +4,6 @@ const menuLinks = document.querySelectorAll('.menu-list a');
 const asideLinks = document.querySelectorAll('aside a');
 const scrollNext = document.querySelector('.scroll-next');
 const sections = document.querySelectorAll('.page');
-// 모달
 const modal = document.querySelector('.modal');
 const overlay = modal.querySelector('.modal-overlay');
 const closeBtn = modal.querySelector('.modal-close-btn');
@@ -14,6 +13,7 @@ const modalContainer = modal.querySelector('.modal-container');
 const modalTitle = modal.querySelector('.modal-title');
 const metaItems = modal.querySelectorAll('.project-meta-item');
 const modalImage = modal.querySelector('.modal-body img');
+const modalImg = modal.querySelector('.modal-body img');
 
 let currentIndex = 0;
 let isScrolling = false;
@@ -223,7 +223,6 @@ window.addEventListener('scroll', () => {
   clearTimeout(syncTimeout);
   syncTimeout = setTimeout(() => {
     if (!isScrolling) {
-      currentIndex = getCurrentSectionIndex();
       updateLayoutState(currentIndex);
     }
   }, 150);
@@ -258,10 +257,6 @@ const closeModal = () => {
   // 애니메이션 시작
   modal.classList.remove('is-open');
   document.body.style.overflow = '';
-
-  // 모달을 닫을 때 현재 인덱스가 마지막 섹션임을 강제로 명시
-  // (모달 안에서 스크롤하다가 getCurrentSectionIndex가 잘못 계산되는 것 방지)
-  currentIndex = sections.length - 1;
 
   // 위치 고정
   sections[currentIndex].scrollIntoView({
@@ -321,8 +316,40 @@ document.querySelectorAll('.project-trigger').forEach((trigger) => {
     // 이미지
     modalImage.src = image;
     modalImage.alt = title;
+  });
+});
 
-    // 모달 열기
-    openModal();
+// 모달 - 로딩스피너
+// 모달 열 때
+function openModalWithLoader({ image }) {
+  // 1. 로딩 상태 ON
+  modal.classList.add('loading');
+  modal.classList.add('open');
+
+  // 2. 기존 이미지 강제 초기화 (잔상 방지 핵심)
+  modalImg.src = '';
+
+  // 3. 새 이미지 객체 생성 (프리로드)
+  const img = new Image();
+  img.src = image;
+
+  img.onload = () => {
+    // 4. 이미지 교체
+    modalImg.src = image;
+
+    // 5. 로딩 종료
+    modal.classList.remove('loading');
+  };
+}
+
+document.querySelectorAll('.project-item button').forEach((btn) => {
+  btn.addEventListener('click', () => {
+    openModalWithLoader({
+      image: btn.dataset.image,
+      title: btn.dataset.title,
+      period: btn.dataset.period,
+      tool: btn.dataset.tool,
+      rate: btn.dataset.rate,
+    });
   });
 });
