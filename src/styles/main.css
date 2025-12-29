@@ -11,6 +11,13 @@ header {
   top: 0;
 }
 
+/* 모달 열렸을 때 헤더 메뉴 숨김 */
+body.is-modal-open .menu,
+body.is-modal-open .menu-trigger {
+  opacity: 0;
+  pointer-events: none;
+}
+
 .menu-trigger,
 .menu-trigger span {
   display: inline-block;

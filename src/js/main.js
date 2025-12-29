@@ -247,6 +247,7 @@ modalContainer.addEventListener(
 
 const openModal = () => {
   modal.classList.add('is-open');
+  document.body.classList.add('is-modal-open'); // 모달열면 메뉴 숨김
   document.body.style.overflow = 'hidden';
   modalContainer.scrollTop = 0;
   isModalOpen = true;
@@ -256,6 +257,7 @@ const openModal = () => {
 const closeModal = () => {
   // 애니메이션 시작
   modal.classList.remove('is-open');
+  document.body.classList.remove('is-modal-open'); // 모달닫으면 메뉴 복귀
   document.body.style.overflow = '';
 
   // 위치 고정
@@ -352,4 +354,21 @@ document.querySelectorAll('.project-item button').forEach((btn) => {
       rate: btn.dataset.rate,
     });
   });
+});
+
+// 모달 이미지 클릭시 프로젝트 해당 링크로 이동
+let currentProjectLink = null;
+
+// 프로젝트 클릭 시
+document.querySelectorAll('.project-trigger').forEach((trigger) => {
+  trigger.addEventListener('click', () => {
+    currentProjectLink = trigger.dataset.link || null;
+  });
+});
+
+// 모달 이미지 클릭 → 사이트 이동
+modalImage.addEventListener('click', () => {
+  if (!currentProjectLink) return;
+
+  window.open(currentProjectLink, '_blank', 'noopener');
 });
