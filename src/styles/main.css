@@ -844,6 +844,23 @@ body.is-light aside a.is-active {
     height: 5rem;
   }
 
+  /* main */
+  .bezier-background {
+    /* 위치 조절 */
+    /* top: -35%;
+    right: -42%; */
+
+    /* 또는 크기 조절 */
+    width: 120%;
+    height: 120%;
+  }
+  .circle-1 {
+    transform: translateX(4%) translateY(-15%);
+  }
+  .circle-2 {
+    transform: translateX(7%) translateY(-10%);
+  }
+
   /* about */
   .about-info {
     flex-direction: column;
@@ -1027,19 +1044,16 @@ body.is-light aside a.is-active {
   }
 
   .bezier-background {
-    /* 위치 조절 */
-    top: -35%;
-    right: -42%;
-
-    /* 또는 크기 조절 */
     width: 150%;
     height: 150%;
+
+    transform: translateY(-30%);
   }
   .circle-1 {
-    transform: rotate(7deg) translateY(-18%);
+    transform: rotate(20deg) translateX(11%) translateY(-5%);
   }
   .circle-2 {
-    transform: rotate(-20deg) translate(2% 18%);
+    transform: rotate(76deg) translateX(-37%) translateY(-170%);
   }
 
   /* scroll-next */
@@ -1159,10 +1173,10 @@ body.is-light aside a.is-active {
   }
 
   .circle-1 {
-    transform: rotate(20deg) translateX(6%) translateY(-10%);
+    transform: rotate(20deg) translateX(15%) translateY(-10%);
   }
   .circle-2 {
-    transform: rotate(76deg) translateX(-43%) translateY(-160%);
+    transform: rotate(76deg) translateX(-36%) translateY(-176%);
   }
 
   /* scroll-next */
