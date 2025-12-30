@@ -1,5 +1,12 @@
 const cursor = document.getElementById('cursor');
 
+// 터치 디바이스면 커서 숨기기
+const isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+
+if (isTouchDevice && cursor) {
+  cursor.style.display = 'none';
+}
+
 /* 커서 위치 추적 (PC만) */
 document.addEventListener('pointermove', (e) => {
   if (e.pointerType === 'mouse') {
