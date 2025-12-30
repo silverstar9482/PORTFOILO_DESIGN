@@ -113,8 +113,15 @@ const goToSection = (index) => {
   isScrolling = true;
   currentIndex = index;
 
-  sections[currentIndex].scrollIntoView({ behavior: 'smooth' });
-  updateLayoutState(currentIndex);
+  const targetSection = sections[currentIndex];
+  const targetTop = targetSection.offsetTop;
+
+  window.scrollTo({
+    top: targetTop,
+    behavior: 'smooth',
+  });
+  // sections[currentIndex].scrollIntoView({ behavior: 'smooth' });
+  // updateLayoutState(currentIndex);
 
   setTimeout(() => {
     isScrolling = false;
