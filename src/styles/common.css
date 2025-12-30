@@ -5,8 +5,23 @@ html {
   /* 기본 폰트사이즈 10px */
   font-size: 62.5%;
   word-break: keep-all;
-  overflow: hidden;
   background-color: #000;
+}
+
+/* Chrome, Safari */
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+/* Firefox */
+html {
+  scrollbar-width: none;
+}
+
+/* IE, Edge */
+body {
+  -ms-overflow-style: none;
 }
 
 body {
