@@ -27,15 +27,15 @@ body.is-modal-open .menu-trigger {
 /* 메뉴 */
 .menu {
   position: fixed;
-  top: 4vw;
-  right: 2vw;
+  top: 8rem;
+  right: 4rem;
   z-index: 666;
 }
 
 .menu-trigger {
   position: fixed;
-  top: 4vw;
-  right: 4vw;
+  top: 8rem;
+  right: 8rem;
   width: 2.8rem;
   height: 2.4rem;
   z-index: 777;
@@ -45,7 +45,7 @@ body.is-modal-open .menu-trigger {
   position: absolute;
   left: 0;
   width: 100%;
-  height: 0.3rem;
+  height: 0.34rem;
   background-color: #fff;
   border-radius: 500rem;
 }
@@ -108,12 +108,13 @@ body.is-modal-open .menu-trigger {
   justify-content: flex-start;
   align-items: flex-end;
   background: rgba(250, 250, 250, 0.7);
-  padding: 6.4vw 2.4vw 0.7vw 2.4vw;
-  margin-top: -2vw;
-  border-radius: 4rem;
-  gap: 1.4vw;
+  /* padding: 6.4vw 2.4vw 0.7vw 2.4vw; */
+  padding: 12rem 4.2rem 1.6rem 4.2rem;
+  margin-top: -4rem;
+  border-radius: 3.6rem;
+  gap: 2.6rem;
   text-align: right;
-  font-size: 1.2vw;
+  font-size: 2.4rem;
   text-transform: uppercase;
 
   /* 초기 상태 */
@@ -140,6 +141,7 @@ body.is-modal-open .menu-trigger {
 .menu.is-closing .menu-list {
   opacity: 0;
   transform: translateY(-20px) scaleY(0.95);
+  transition: all 0.2s ease-in;
 }
 
 /* 공통 */
@@ -181,9 +183,10 @@ nav {
 
 /* scroll-next */
 .scroll-next {
-  width: 60px;
-  height: 60px;
-  margin-top: 50px;
+  width: 6rem;
+  height: 6rem;
+  margin-top: 3vw;
+  /* margin-top: 5rem; */
   animation: bounce 2.5s ease-in-out infinite; /* 2s에서 2.5s로 */
   cursor: pointer;
 
@@ -746,8 +749,9 @@ body.is-light aside a.is-active {
   right: 3.2vw;
   bottom: 4vw;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.9);
+  background: #f4f4f4;
   color: #000;
+  box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.5);
 
   display: flex;
   align-items: center;
@@ -818,4 +822,478 @@ body.is-light aside a.is-active {
 }
 
 @media (max-width: 1200px) {
+  /* 메뉴 리스트 */
+  .menu-list {
+    font-size: 2.2rem;
+    padding: 11rem 4rem 1.4rem 4rem;
+    gap: 2.4rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  /* 메뉴 리스트 */
+  .menu-list {
+    font-size: 1.8rem;
+    padding: 10rem 3.6rem 1.4rem 3.6rem;
+    gap: 2rem;
+  }
+
+  /* scroll-next */
+  .scroll-next img {
+    width: 5rem;
+    height: 5rem;
+  }
+
+  /* about */
+  .about-info {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 4vw;
+    padding: 0;
+    padding-top: 5vw;
+  }
+  .info-profile {
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: end;
+    gap: 3.4vw;
+
+    img {
+      width: 12vw;
+    }
+
+    p {
+      font-size: 4.8vw;
+    }
+
+    .profile-email {
+      font-size: 2vw;
+    }
+
+    .profile-email::before {
+      transform: translateY(30%);
+    }
+  }
+
+  .info-details {
+    /* details 공통 제목 */
+    .info-title {
+      font-size: 2.4vw;
+    }
+
+    .details-skills {
+      .skill-list-out,
+      .skill-list-in {
+        gap: 2rem;
+      }
+
+      /* 각 스킬 */
+      .skill-ring {
+        width: 13vw;
+        height: 13vw;
+      }
+
+      /* 스킬 텍스트 */
+      .skill-label {
+        font-size: 1.6vw;
+      }
+    }
+
+    /* 경력사항 */
+    .career-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.6vw;
+
+      .career-item {
+        display: flex;
+        gap: 1vw;
+        strong,
+        p {
+          color: #888;
+          font-size: 1.8vw;
+        }
+      }
+    }
+  }
+
+  /* uxui,web,editorial design */
+
+  /* 공통 */
+  .section-title {
+    font-size: 4.4vw;
+  }
+
+  .project-list .project-item {
+    gap: 1.4vw;
+
+    .project-trigger {
+      width: 13rem;
+      height: 13rem;
+      border-radius: 2.4rem;
+    }
+
+    p {
+      font-size: 1.2vw;
+    }
+  }
+
+  /* 모달 */
+  /* 컨테이너 애니메이션 */
+  .modal-container {
+    padding: 10rem 0;
+  }
+
+  /* 모달 - 프로젝트 내용 */
+  .modal-content {
+    width: 80%;
+  }
+
+  /* 헤더 */
+  .modal-title {
+    margin-right: 2rem;
+  }
+
+  /* 메타 정보 */
+  .project-meta {
+    .project-meta-item {
+      font-size: 1.2rem;
+      background-color: #555;
+      padding: 0.5rem 1rem;
+      word-break: keep-all;
+    }
+
+    .project-meta-item:nth-of-type(2) {
+      margin: 0 0.6rem 0 0.6rem;
+    }
+  }
+
+  /* 닫기버튼 */
+  .modal-close-btn {
+    width: 4.2rem;
+    height: 4.2rem;
+  }
+
+  /* 모달 탑버튼 */
+  .modal-top-btn {
+    width: 4.2rem;
+    height: 4.2rem;
+  }
+
+  /* 화살표 아이콘 */
+  .modal-top-btn::before {
+    width: 1.4rem;
+    height: 1.4rem;
+    border-left: 0.2rem solid #000;
+    border-top: 0.2rem solid #000;
+    transform: rotate(45deg) translateY(0.15rem) translateX(0.25rem);
+  }
+}
+
+@media (max-width: 768px) {
+  .menu {
+    top: 7rem;
+    right: 2.8rem;
+  }
+
+  .menu-trigger {
+    top: 6rem;
+    right: 6rem;
+    width: 2.4rem;
+    height: 2rem;
+  }
+
+  /* 메뉴 리스트 */
+  .menu-list {
+    font-size: 1.4rem;
+    padding: 8rem 3.6rem 1.4rem 3.6rem;
+    gap: 1.6rem;
+    border-radius: 2.8rem;
+  }
+
+  /* aisde */
+  aside {
+    left: 5%;
+  }
+
+  /* main */
+  .main h1 .main-txt {
+    font-size: 7rem;
+  }
+
+  .main h1 .sub-txt {
+    font-size: 1.4rem;
+  }
+
+  .bezier-background {
+    /* 위치 조절 */
+    top: -35%;
+    right: -42%;
+
+    /* 또는 크기 조절 */
+    width: 150%;
+    height: 150%;
+  }
+  .circle-1 {
+    transform: rotate(7deg) translateY(-18%);
+  }
+  .circle-2 {
+    transform: rotate(-20deg) translate(2% 18%);
+  }
+
+  /* scroll-next */
+  .scroll-next img {
+    width: 4.6rem;
+    height: 4.6rem;
+  }
+
+  /* uxui,web,editorial design */
+  /* 공통 */
+  .section-title {
+    font-size: 4rem;
+  }
+
+  .project-list .project-item {
+    gap: 1.4vw;
+
+    .project-trigger {
+      width: 12rem;
+      height: 12rem;
+      border-radius: 2rem;
+    }
+
+    p {
+      font-size: 1.4rem;
+    }
+  }
+
+  /* web */
+  .web .project-list {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    justify-content: center;
+    gap: 0vw 2.4vw;
+  }
+
+  /* 모달 */
+  /* 컨테이너 애니메이션 */
+  .modal-container {
+    padding: 10rem 0;
+  }
+
+  /* 모달 - 프로젝트 내용 */
+  .modal-content {
+    width: calc(100%);
+  }
+
+  .modal-title {
+    margin-right: 2rem;
+  }
+
+  /* 메타 정보 */
+  .project-meta {
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+    gap: 1rem;
+    .project-meta-item {
+      font-size: 1rem;
+    }
+
+    .project-meta-item:nth-of-type(2) {
+      margin: 0;
+    }
+  }
+
+  /* 닫기버튼 */
+  .modal-close-btn {
+    width: 4.2rem;
+    height: 4.2rem;
+    top: 2rem;
+    right: 1rem;
+  }
+
+  /* 모달 탑버튼 */
+  .modal-top-btn {
+    width: 4.2rem;
+    height: 4.2rem;
+  }
+
+  /* 화살표 아이콘 */
+  .modal-top-btn::before {
+    width: 1.4rem;
+    height: 1.4rem;
+    border-left: 0.2rem solid #000;
+    border-top: 0.2rem solid #000;
+    transform: rotate(45deg) translateY(0.15rem) translateX(0.25rem);
+  }
+}
+
+@media (max-width: 480px) {
+  .menu {
+    top: 6rem;
+    right: 1.2rem;
+  }
+  .menu-trigger {
+    top: 5rem;
+    right: 4rem;
+    width: 2.4rem;
+    height: 2rem;
+  }
+  /* 메뉴 리스트 */
+  .menu-list {
+    font-size: 1.4rem;
+    padding: 8rem 2.8rem 1.4rem 2.8rem;
+    gap: 1.6rem;
+    border-radius: 2.8rem;
+  }
+
+  /* main */
+  .main h1 .main-txt {
+    font-size: 14vw;
+  }
+
+  .main h1 .sub-txt {
+    white-space: nowrap;
+  }
+
+  .circle-1 {
+    transform: rotate(20deg) translateX(6%) translateY(-10%);
+  }
+  .circle-2 {
+    transform: rotate(76deg) translateX(-43%) translateY(-160%);
+  }
+
+  /* scroll-next */
+  .scroll-next img {
+    margin-top: 5vw;
+  }
+
+  /* about */
+  .about-info {
+    gap: 4rem;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .info-profile {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1.2vw;
+
+    img {
+      width: 17rem;
+    }
+
+    div {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    p {
+      font-size: 3rem;
+    }
+
+    .profile-email {
+      font-size: 1.2rem;
+      padding-left: 2rem;
+    }
+
+    .profile-email::before {
+      width: 1.6rem;
+      height: 1.6rem;
+      transform: translateY(0);
+    }
+  }
+
+  .info-details {
+    gap: 3rem;
+
+    /* details 공통 제목 */
+    .info-title {
+      font-size: 1.6rem;
+      margin-bottom: 1.4rem;
+      align-self: center;
+    }
+
+    .details-skills {
+      .skill-list-out,
+      .skill-list-in {
+        gap: 0.6rem;
+      }
+
+      /* 각 스킬 */
+      .skill-ring {
+        width: 18vw;
+        height: 18vw;
+      }
+
+      /* 스킬 텍스트 */
+      .skill-label {
+        font-size: 1rem;
+        letter-spacing: -0.5px;
+      }
+    }
+
+    /* 경력사항 */
+
+    .details-activities {
+      text-align: center;
+    }
+    .career-list {
+      justify-content: center;
+      align-items: center;
+      gap: 1.4rem;
+      .career-item {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 0.6rem;
+        strong,
+        p {
+          font-size: 1.4rem;
+        }
+
+        .career-period,
+        .career-desc {
+          display: block;
+          width: 100%;
+        }
+      }
+    }
+  }
+
+  /* uxui,web,editorial design */
+  .web .project-list,
+  .editorial .project-list {
+    display: grid;
+    grid-template-columns: repeat(1, auto);
+    justify-content: center;
+    gap: 2vw 2.4vw;
+  }
+
+  /* 공통 */
+  .section-title {
+    font-size: 3rem;
+    text-align: center;
+    margin-bottom: 1.2rem;
+  }
+
+  .project-list .project-item {
+    .project-trigger {
+      width: 10rem;
+      height: 10rem;
+      border-radius: 1.8rem;
+      margin-top: 0.15rem;
+    }
+
+    p {
+      font-size: 1.4rem;
+      margin-top: 0.6rem;
+    }
+  }
 }
