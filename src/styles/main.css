@@ -1173,7 +1173,7 @@ body.is-light aside a.is-active {
   }
 
   .circle-1 {
-    transform: rotate(20deg) translateX(15%) translateY(-10%);
+    transform: rotate(20deg) translateX(15%) translateY(-9%);
   }
   .circle-2 {
     transform: rotate(76deg) translateX(-36%) translateY(-176%);
