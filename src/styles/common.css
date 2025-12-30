@@ -23,12 +23,6 @@ body {
   overflow: hidden;
 }
 
-/* 모달 열릴 때 fixed 해제 */
-body.is-modal-open {
-  position: static;
-  overflow: visible;
-}
-
 * {
   color: #fff;
 }
