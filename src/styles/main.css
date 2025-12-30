@@ -1198,7 +1198,7 @@ body.is-light aside a.is-active {
     gap: 1.2vw;
 
     img {
-      width: 12rem;
+      width: 14rem;
     }
 
     div {
@@ -1209,18 +1209,18 @@ body.is-light aside a.is-active {
     }
 
     p {
-      font-size: 2rem;
+      font-size: 2.4rem;
     }
 
     .profile-email {
       font-size: 1rem;
-      padding-left: 1.2rem;
+      padding-left: 1.3rem;
     }
 
     .profile-email::before {
       width: 1rem;
       height: 1rem;
-      transform: translateY(15%);
+      transform: translateY(0);
     }
   }
 
@@ -1242,14 +1242,14 @@ body.is-light aside a.is-active {
 
       /* 각 스킬 */
       .skill-ring {
-        width: 16vw;
-        height: 16vw;
+        width: 17vw;
+        height: 17vw;
       }
 
       /* 스킬 텍스트 */
       .skill-label {
         font-size: 1rem;
-        letter-spacing: -0.5px;
+        letter-spacing: 0;
       }
     }
 
