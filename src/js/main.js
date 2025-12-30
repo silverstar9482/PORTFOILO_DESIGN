@@ -166,6 +166,7 @@ window.addEventListener(
   (e) => {
     if (isModalOpen) return;
     touchStartY = e.touches[0].clientY;
+    touchEndY = touchStartY;
   },
   { passive: true }
 );
@@ -174,8 +175,12 @@ window.addEventListener(
   'touchmove',
   (e) => {
     if (isModalOpen) return;
-    // 페이지 스크롤 방지
-    e.preventDefault();
+    touchEndY = e.touches[0].clientY;
+
+    // 10px 이상 움직일 때만 기본 동작 방지
+    if (Math.abs(touchStartY - touchEndY) > 10) {
+      e.preventDefault();
+    }
   },
   { passive: false }
 );
@@ -185,7 +190,6 @@ window.addEventListener(
   (e) => {
     if (isModalOpen || isScrolling) return;
 
-    touchEndY = e.changedTouches[0].clientY;
     const deltaY = touchStartY - touchEndY;
 
     // 스와이프 거리가 충분한지 확인
@@ -421,5 +425,3 @@ modalImage.addEventListener('click', () => {
 
   window.open(currentProjectLink, '_blank', 'noopener');
 });
-
-
