@@ -1186,7 +1186,7 @@ body.is-light aside a.is-active {
 
   /* about */
   .about-info {
-    gap: 4rem;
+    gap: 2.6rem;
     justify-content: center;
     align-items: center;
   }
@@ -1198,7 +1198,7 @@ body.is-light aside a.is-active {
     gap: 1.2vw;
 
     img {
-      width: 17rem;
+      width: 12rem;
     }
 
     div {
@@ -1209,23 +1209,23 @@ body.is-light aside a.is-active {
     }
 
     p {
-      font-size: 3rem;
+      font-size: 2rem;
     }
 
     .profile-email {
-      font-size: 1.2rem;
-      padding-left: 2rem;
+      font-size: 1rem;
+      padding-left: 1.2rem;
     }
 
     .profile-email::before {
-      width: 1.6rem;
-      height: 1.6rem;
-      transform: translateY(0);
+      width: 1rem;
+      height: 1rem;
+      transform: translateY(15%);
     }
   }
 
   .info-details {
-    gap: 3rem;
+    gap: 2rem;
 
     /* details 공통 제목 */
     .info-title {
@@ -1242,8 +1242,8 @@ body.is-light aside a.is-active {
 
       /* 각 스킬 */
       .skill-ring {
-        width: 18vw;
-        height: 18vw;
+        width: 16vw;
+        height: 16vw;
       }
 
       /* 스킬 텍스트 */
