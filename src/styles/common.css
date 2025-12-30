@@ -30,19 +30,3 @@ body {
   border: 0;
 }
 
-/* 모바일에서 커스텀 커서 숨김 처리 */
-@media (hover: none) and (pointer: coarse) {
-  body .custom-cursor {
-    display: none;
-  }
-
-  body,
-  body *,
-  body a,
-  body button,
-  body input,
-  body label,
-  body [role='button'] {
-    cursor: auto;
-  }
-}
