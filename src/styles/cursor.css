@@ -106,3 +106,37 @@ body.is-light .cursor-ripple.secondary {
     opacity: 0;
   }
 }
+
+@media (max-width: 1024px) {
+  /* 물결 파장 */
+  /* 이중 파장 공통 */
+
+  /* 1차 파장 (안쪽) */
+  .cursor-ripple.primary {
+    width: 6rem;
+    height: 6rem;
+  }
+
+  /* 2차 파장 (바깥) */
+  .cursor-ripple.secondary {
+    width: 12rem;
+    height: 12rem;
+  }
+}
+
+@media (max-width: 768px) {
+  /* 물결 파장 */
+  /* 이중 파장 공통 */
+
+  /* 1차 파장 (안쪽) */
+  .cursor-ripple.primary {
+    width: 5rem;
+    height: 5rem;
+  }
+
+  /* 2차 파장 (바깥) */
+  .cursor-ripple.secondary {
+    width: 10rem;
+    height: 10rem;
+  }
+}
