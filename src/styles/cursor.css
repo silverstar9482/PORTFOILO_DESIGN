@@ -2,24 +2,6 @@ body {
   cursor: none; /* 기존 커서 숨기기 */
 }
 
-/* 모바일에서 커스텀 커서 숨김 처리 */
-@media (hover: none) and (pointer: coarse) {
-  body .custom-cursor {
-    display: none;
-  }
-
-  body,
-  body *,
-  body a,
-  body button,
-  body input,
-  body label,
-  body [role='button'] {
-    cursor: auto;
-  }
-}
-
-
 /* 1. 모든 요소(버튼, 링크 등)에서 기본 손가락 모양 커서를 제거 */
 *,
 a,
@@ -40,6 +22,23 @@ label,
   background-size: cover;
   pointer-events: none; /* 커서가 클릭을 방해하지 않도록 함 */
   z-index: 99999;
+}
+
+/* 모바일에서 커스텀 커서 숨김 처리 */
+@media (hover: none) and (pointer: coarse) {
+  body .custom-cursor {
+    display: none;
+  }
+
+  body,
+  body *,
+  body a,
+  body button,
+  body input,
+  body label,
+  body [role='button'] {
+    cursor: auto;
+  }
 }
 
 /* 모달 내부 스크롤바 숨기기 (기능은 작동) */
