@@ -935,6 +935,22 @@ body.is-light aside a.is-active {
     }
   }
 
+  .about-footer {
+    font-size: 1.5vw;
+
+    p::before {
+      width: 3vw;
+      height: 3vw;
+      left: -4.5vw;
+    }
+
+    p::after {
+      width: 3vw;
+      height: 3vw;
+      right: -4.5vw;
+    }
+  }
+
   /* uxui,web,editorial design */
 
   /* 공통 */
@@ -1279,6 +1295,10 @@ body.is-light aside a.is-active {
         }
       }
     }
+  }
+
+  .about-footer {
+    display: none;
   }
 
   /* uxui,web,editorial design */
