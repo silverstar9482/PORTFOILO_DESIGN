@@ -156,6 +156,55 @@ window.addEventListener(
   { passive: false }
 );
 
+// 모바일 터치 스와이프 처리
+let touchStartY = 0;
+let touchEndY = 0;
+const SWIPE_THRESHOLD = 50; // 최소 스와이프 거리
+
+window.addEventListener(
+  'touchstart',
+  (e) => {
+    if (isModalOpen) return;
+    touchStartY = e.touches[0].clientY;
+  },
+  { passive: true }
+);
+
+window.addEventListener(
+  'touchmove',
+  (e) => {
+    if (isModalOpen) return;
+    // 페이지 스크롤 방지
+    e.preventDefault();
+  },
+  { passive: false }
+);
+
+window.addEventListener(
+  'touchend',
+  (e) => {
+    if (isModalOpen || isScrolling) return;
+
+    touchEndY = e.changedTouches[0].clientY;
+    const deltaY = touchStartY - touchEndY;
+
+    // 스와이프 거리가 충분한지 확인
+    if (Math.abs(deltaY) < SWIPE_THRESHOLD) return;
+
+    closeMenu();
+    currentIndex = getCurrentSectionIndex();
+
+    if (deltaY > 0 && currentIndex < sections.length - 1) {
+      // 위로 스와이프 → 다음 섹션
+      goToSection(currentIndex + 1);
+    } else if (deltaY < 0 && currentIndex > 0) {
+      // 아래로 스와이프 → 이전 섹션
+      goToSection(currentIndex - 1);
+    }
+  },
+  { passive: true }
+);
+
 // 메뉴 효과 //
 // 메뉴 열기 & 닫기
 menuTrigger.addEventListener('click', (e) => {
