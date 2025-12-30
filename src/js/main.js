@@ -158,51 +158,33 @@ window.addEventListener(
 
 // 모바일 터치 스와이프 처리
 let touchStartY = 0;
-let touchEndY = 0;
-const SWIPE_THRESHOLD = 50; // 최소 스와이프 거리
+const SWIPE_THRESHOLD = 50;
 
-window.addEventListener(
+document.body.addEventListener(
   'touchstart',
   (e) => {
     if (isModalOpen) return;
     touchStartY = e.touches[0].clientY;
-    touchEndY = touchStartY;
   },
   { passive: true }
 );
 
-window.addEventListener(
-  'touchmove',
-  (e) => {
-    if (isModalOpen) return;
-    touchEndY = e.touches[0].clientY;
-
-    // 10px 이상 움직일 때만 기본 동작 방지
-    if (Math.abs(touchStartY - touchEndY) > 10) {
-      e.preventDefault();
-    }
-  },
-  { passive: false }
-);
-
-window.addEventListener(
+document.body.addEventListener(
   'touchend',
   (e) => {
     if (isModalOpen || isScrolling) return;
 
+    const touchEndY = e.changedTouches[0].clientY;
     const deltaY = touchStartY - touchEndY;
 
-    // 스와이프 거리가 충분한지 확인
     if (Math.abs(deltaY) < SWIPE_THRESHOLD) return;
 
     closeMenu();
     currentIndex = getCurrentSectionIndex();
 
     if (deltaY > 0 && currentIndex < sections.length - 1) {
-      // 위로 스와이프 → 다음 섹션
       goToSection(currentIndex + 1);
     } else if (deltaY < 0 && currentIndex > 0) {
-      // 아래로 스와이프 → 이전 섹션
       goToSection(currentIndex - 1);
     }
   },
