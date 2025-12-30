@@ -156,20 +156,63 @@ window.addEventListener(
   { passive: false }
 );
 
-// 모바일 터치 스와이프 처리
+// // 모바일 터치 스와이프 처리
+// let touchStartY = 0;
+// const SWIPE_THRESHOLD = 50;
+
+// document.body.addEventListener(
+//   'touchstart',
+//   (e) => {
+//     if (isModalOpen) return;
+//     touchStartY = e.touches[0].clientY;
+//   },
+//   { passive: true }
+// );
+
+// document.body.addEventListener(
+//   'touchend',
+//   (e) => {
+//     if (isModalOpen || isScrolling) return;
+
+//     const touchEndY = e.changedTouches[0].clientY;
+//     const deltaY = touchStartY - touchEndY;
+
+//     if (Math.abs(deltaY) < SWIPE_THRESHOLD) return;
+
+//     closeMenu();
+//     currentIndex = getCurrentSectionIndex();
+
+//     if (deltaY > 0 && currentIndex < sections.length - 1) {
+//       goToSection(currentIndex + 1);
+//     } else if (deltaY < 0 && currentIndex > 0) {
+//       goToSection(currentIndex - 1);
+//     }
+//   },
+//   { passive: true }
+// );
+
+// 모바일 터치 스와이프 처리 (디버그용)
 let touchStartY = 0;
 const SWIPE_THRESHOLD = 50;
 
-document.body.addEventListener(
+// 디버그용 빨간 박스
+const debugBox = document.createElement('div');
+debugBox.style.cssText =
+  'position:fixed;top:10px;left:10px;background:red;color:white;padding:10px;z-index:999999;font-size:14px;';
+debugBox.textContent = '터치 대기중...';
+document.body.appendChild(debugBox);
+
+document.addEventListener(
   'touchstart',
   (e) => {
     if (isModalOpen) return;
     touchStartY = e.touches[0].clientY;
+    debugBox.textContent = '시작: ' + touchStartY;
   },
   { passive: true }
 );
 
-document.body.addEventListener(
+document.addEventListener(
   'touchend',
   (e) => {
     if (isModalOpen || isScrolling) return;
@@ -177,7 +220,11 @@ document.body.addEventListener(
     const touchEndY = e.changedTouches[0].clientY;
     const deltaY = touchStartY - touchEndY;
 
+    debugBox.textContent = '델타: ' + deltaY;
+
     if (Math.abs(deltaY) < SWIPE_THRESHOLD) return;
+
+    debugBox.textContent = '페이지 이동!';
 
     closeMenu();
     currentIndex = getCurrentSectionIndex();
