@@ -123,7 +123,9 @@ body.is-modal-open .menu-trigger {
   transform: translateY(-20px) scaleY(0.95);
   transform-origin: top;
 
-  transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .menu-list li {
@@ -548,7 +550,8 @@ body.is-light aside a.is-active {
 /* 공통 */
 .uxui,
 .web,
-.editorial {
+.editorial,
+.detailed-page {
   width: 100%;
   height: 100vh;
   display: flex;
@@ -604,18 +607,23 @@ body.is-light aside a.is-active {
     font-family: 'Pretendard', sans-serif;
     font-weight: 300;
     color: #ccc;
+    text-align: center;
+    line-height: 1.4;
   }
 }
 
 /* 배경 */
-.uxui {
+/* .uxui {
   background: url('../assets/bg_01.png') no-repeat center / 100% 100%;
-}
+} */
 .web {
   background: url('../assets/bg_02.png') no-repeat center / 100% 100%;
 }
 .editorial {
   background: url('../assets/bg_03.png') no-repeat center / 100% 100%;
+}
+.detailed-page {
+  background: url('../assets/bg_01.png') no-repeat center / 100% 100%;
 }
 
 /* modal */
@@ -654,7 +662,9 @@ body.is-light aside a.is-active {
 
   transform: translateY(20px) scale(0.98);
   opacity: 0;
-  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.35s ease;
+  transition:
+    transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.35s ease;
 }
 
 /* 모달 내부 스크롤바 숨기기 */
@@ -760,7 +770,9 @@ body.is-light aside a.is-active {
   opacity: 0;
   visibility: hidden;
   transform: translateY(10px);
-  transition: opacity 0.5s ease-in-out, transform 0.6s ease;
+  transition:
+    opacity 0.5s ease-in-out,
+    transform 0.6s ease;
 
   z-index: 9800;
   pointer-events: auto; /* 클릭 가능하도록 */
@@ -811,7 +823,9 @@ body.is-light aside a.is-active {
   width: 5rem;
   aspect-ratio: 1;
   border-radius: 50%;
-  background: radial-gradient(farthest-side, #eee 94%, #0000) top/8px 8px no-repeat, conic-gradient(#0000 30%, #eee);
+  background:
+    radial-gradient(farthest-side, #eee 94%, #0000) top/8px 8px no-repeat,
+    conic-gradient(#0000 30%, #eee);
   -webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - 8px), #000 0);
   animation: l13 1s infinite linear;
 }
@@ -972,6 +986,15 @@ body.is-light aside a.is-active {
     }
   }
 
+  /* 상세페이지 */
+  /* detailed-pag */
+  .detailed-page .project-list {
+    display: grid;
+    grid-template-columns: repeat(4, auto);
+    justify-content: center;
+    gap: 0vw 2.4vw;
+  }
+
   /* 모달 */
   /* 컨테이너 애니메이션 */
   .modal-container {
@@ -1099,7 +1122,8 @@ body.is-light aside a.is-active {
   }
 
   /* web */
-  .web .project-list {
+  .web .project-list,
+  .detailed-page .project-list {
     display: grid;
     grid-template-columns: repeat(2, auto);
     justify-content: center;
@@ -1303,7 +1327,8 @@ body.is-light aside a.is-active {
 
   /* uxui,web,editorial design */
   .web .project-list,
-  .editorial .project-list {
+  .editorial .project-list,
+  .detailed-page .project-list {
     display: grid;
     grid-template-columns: repeat(1, auto);
     justify-content: center;
