@@ -19,6 +19,98 @@ let currentIndex = 0;
 let isScrolling = false;
 let isModalOpen = false;
 
+/* ========================================
+   PROJECT 페이지 단계별 애니메이션
+======================================== */
+
+const workSections = document.querySelectorAll('.uxui, .web, .editorial, .detailed-page');
+
+/* 처음부터 프로젝트 페이지를 애니메이션 준비 상태로 */
+workSections.forEach((section) => {
+  section.classList.add('work-motion');
+});
+
+const isWorkSection = (section) => {
+  return section.matches('.uxui, .web, .editorial, .detailed-page');
+};
+
+/* 제목을 정확히 화면 중앙으로 보내기 */
+const setTitleCenterPosition = (section) => {
+  const title = section.querySelector('.section-title');
+
+  if (!title) return;
+
+  const sectionHeight = section.clientHeight;
+
+  /* transform 적용 전 원래 제목 위치 기준 */
+  const titleCenter = title.offsetTop + title.offsetHeight / 2;
+
+  const sectionCenter = sectionHeight / 2;
+
+  const shift = sectionCenter - titleCenter;
+
+  section.style.setProperty('--title-center-shift', `${shift}px`);
+};
+
+/* 프로젝트 페이지 처음 진입 */
+const prepareWorkSection = (section) => {
+  if (!isWorkSection(section)) return;
+
+  /* 먼저 제목 중앙 위치 계산 */
+  setTitleCenterPosition(section);
+
+  /* 그 다음 애니메이션 클래스 적용 */
+  section.classList.add('work-motion');
+
+  /* 카드 순차 등장 딜레이 */
+  const items = section.querySelectorAll('.project-item');
+
+  items.forEach((item, index) => {
+    const delay = 0.25 + index * 0.16;
+
+    item.style.setProperty('--item-delay', `${delay}s`);
+  });
+
+  /* 애니메이션 초기화 */
+  section.classList.remove('is-title-only', 'is-content-open');
+
+  /* 브라우저에 초기 상태 강제 적용 */
+  section.offsetHeight;
+};
+
+const waitForSectionArrival = (section, callback) => {
+  const checkPosition = () => {
+    const distance = Math.abs(section.getBoundingClientRect().top);
+
+    if (distance <= 20) {
+      callback();
+      return;
+    }
+
+    requestAnimationFrame(checkPosition);
+  };
+
+  requestAnimationFrame(checkPosition);
+};
+
+/* 콘텐츠 열기 */
+const openWorkContent = (section) => {
+  section.classList.remove('is-title-only');
+  section.classList.add('is-content-open');
+};
+
+/* 위로 스크롤할 경우 다시 제목 상태 */
+const closeWorkContent = (section) => {
+  section.classList.remove('is-content-open');
+  section.classList.add('is-title-only');
+
+  isScrolling = true;
+
+  setTimeout(() => {
+    isScrolling = false;
+  }, 900);
+};
+
 // 메뉴 닫기 공통 함수
 const closeMenu = () => {
   if (!menu.classList.contains('is-open')) return;
@@ -72,6 +164,14 @@ const updateLayoutState = (index) => {
   const isHome = index === 0;
   const isLight = section.id === 'about';
 
+  sections.forEach((section) => {
+    section.classList.remove('is-active');
+  });
+
+  requestAnimationFrame(() => {
+    section.classList.add('is-active');
+  });
+
   // ASIDE 표시 여부
   document.body.classList.toggle('show-aside', !isHome);
 
@@ -113,47 +213,108 @@ const goToSection = (index) => {
   isScrolling = true;
   currentIndex = index;
 
-  sections[currentIndex].scrollIntoView({ behavior: 'smooth' });
-  updateLayoutState(currentIndex);
+  const targetSection = sections[currentIndex];
+  const workPage = isWorkSection(targetSection);
 
-  setTimeout(() => {
-    isScrolling = false;
-  }, 900);
+  /* 프로젝트 페이지 초기화 */
+  if (workPage) {
+    prepareWorkSection(targetSection);
+  }
+
+  /* 페이지 이동 */
+  targetSection.scrollIntoView({
+    behavior: 'smooth',
+  });
+
+  /* HOME은 실제 화면에 도착한 뒤 is-active 적용 */
+  if (currentIndex !== 0) {
+    updateLayoutState(currentIndex);
+  }
+
+  if (workPage) {
+    /* 프로젝트 페이지 */
+    waitForSectionArrival(targetSection, () => {
+      requestAnimationFrame(() => {
+        targetSection.classList.add('is-title-only');
+      });
+
+      setTimeout(() => {
+        openWorkContent(targetSection);
+      }, 900);
+
+      setTimeout(() => {
+        isScrolling = false;
+      }, 2200);
+    });
+  } else if (currentIndex === 0) {
+    /* =========================
+     HOME
+     실제 화면에 도착한 뒤 애니메이션 시작
+  ========================= */
+
+    /* 혹시 남아있는 상태 확실하게 초기화 */
+    targetSection.classList.remove('is-active');
+
+    waitForSectionArrival(targetSection, () => {
+      /* 빈 화면 상태를 브라우저에 먼저 적용 */
+      targetSection.offsetHeight;
+
+      /* 그 다음 처음부터 애니메이션 실행 */
+      updateLayoutState(currentIndex);
+
+      setTimeout(() => {
+        isScrolling = false;
+      }, 900);
+    });
+  } else {
+    /* 일반 페이지 */
+    setTimeout(() => {
+      isScrolling = false;
+    }, 900);
+  }
 };
 
-// 스크롤 효과 (throttle 적용)
+// 스크롤 효과
 let wheelThrottle = false;
+
 window.addEventListener(
   'wheel',
   (event) => {
-    // 모달이 열려있거나, 닫히는 중(isModalOpen이 true)일 때는 메인 스크롤 완전 차단
     if (isModalOpen) {
       return;
     }
 
-    // 기본 스크롤 방지
     event.preventDefault();
 
     if (isScrolling || wheelThrottle) return;
 
-    // 휠 강도 체크 (미세한 관성은 무시)
     if (Math.abs(event.deltaY) < 40) return;
 
     wheelThrottle = true;
-    setTimeout(() => (wheelThrottle = false), 100);
+
+    setTimeout(() => {
+      wheelThrottle = false;
+    }, 150);
 
     closeMenu();
 
-    // 인덱스 다시 확인
     currentIndex = getCurrentSectionIndex();
+    const currentSection = sections[currentIndex];
 
-    if (event.deltaY > 0 && currentIndex < sections.length - 1) {
-      goToSection(currentIndex + 1);
-    } else if (event.deltaY < 0 && currentIndex > 0) {
-      goToSection(currentIndex - 1);
+    /* 아래로 */
+    if (event.deltaY > 0) {
+      if (currentIndex < sections.length - 1) {
+        goToSection(currentIndex + 1);
+      }
+    } else {
+      /* 위로 */
+      if (currentIndex > 0) {
+        goToSection(currentIndex - 1);
+      }
     }
   },
-  { passive: false }
+
+  { passive: false },
 );
 
 // 모바일 터치 스와이프 처리
@@ -166,7 +327,7 @@ document.body.addEventListener(
     if (isModalOpen) return;
     touchStartY = e.touches[0].clientY;
   },
-  { passive: true }
+  { passive: true },
 );
 
 document.body.addEventListener(
@@ -188,7 +349,7 @@ document.body.addEventListener(
       goToSection(currentIndex - 1);
     }
   },
-  { passive: true }
+  { passive: true },
 );
 
 // 메뉴 효과 //
@@ -277,7 +438,7 @@ modalContainer.addEventListener(
   (e) => {
     e.stopPropagation();
   },
-  { passive: false }
+  { passive: false },
 );
 
 const openModal = () => {
@@ -398,6 +559,8 @@ let currentProjectLink = null;
 document.querySelectorAll('.project-trigger').forEach((trigger) => {
   trigger.addEventListener('click', () => {
     currentProjectLink = trigger.dataset.link || null;
+
+    modalImage.classList.toggle('has-link', Boolean(currentProjectLink));
   });
 });
 

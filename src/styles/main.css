@@ -157,6 +157,34 @@ nav {
   font-weight: 700;
 }
 
+/* =========================
+   ABOUT 진입 애니메이션
+========================= */
+
+/* 1. 프로필 사진 + 이름 + 이메일 전체 */
+#about.is-active .info-profile {
+  animation: aboutSlideDown 1.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* 2. 스킬 + 경력 전체 */
+#about.is-active .info-details {
+  animation: aboutSlideDown 1.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 0.5s;
+}
+
+/* 위에서 아래로 내려오는 효과 */
+@keyframes aboutSlideDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-140px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* main */
 .main {
   text-align: left;
@@ -183,18 +211,93 @@ nav {
   }
 }
 
+/* =========================
+   MAIN 텍스트 진입 애니메이션
+========================= */
+
+/* 기본 상태 = 완전히 숨김 + 즉시 리셋 */
+.main .sub-txt,
+.main .main-txt {
+  display: block;
+  clip-path: inset(0 100% 0 0);
+
+  /* 메인에서 벗어날 때는 애니메이션 없이 즉시 초기화 */
+  transition: none;
+
+  will-change: clip-path;
+}
+
+/* 작은 글씨 등장 */
+.main.is-active .sub-txt {
+  clip-path: inset(0 0 0 0);
+
+  transition: clip-path 1.6s cubic-bezier(0.25, 0.1, 0.25, 1);
+
+  transition-delay: 0.45s;
+}
+
+/* PORTFOLIO 등장 */
+.main.is-active .main-txt {
+  clip-path: inset(0 0 0 0);
+
+  transition: clip-path 2.2s cubic-bezier(0.25, 0.1, 0.25, 1);
+
+  transition-delay: 0.7s;
+}
+
+/* 화면 진입 */
+.main.is-active .sub-txt,
+.main.is-active .main-txt {
+  clip-path: inset(0 0 0 0);
+}
+
+/* 작은 글씨 먼저 */
+.main.is-active .sub-txt {
+  transition-delay: 0.45s;
+}
+
+/* 큰 글씨 자연스럽게 이어서 */
+.main.is-active .main-txt {
+  transition-delay: 0.7s;
+}
 /* scroll-next */
 .scroll-next {
   width: 6rem;
   height: 6rem;
   margin-top: 3vw;
   /* margin-top: 5rem; */
-  animation: bounce 2.5s ease-in-out infinite; /* 2s에서 2.5s로 */
+  /* animation: bounce 2.5s ease-in-out infinite;  2s에서 2.5s로 */
   cursor: pointer;
 
+  /* 처음에는 숨김 */
+  opacity: 0;
+  transform: translateY(20px);
+
+  transition: none;
+
+  /* 
   img {
     width: 100%;
-  }
+  } */
+}
+
+/* 텍스트가 다 나온 다음 화살표 등장 */
+.main.is-active .scroll-next {
+  opacity: 1;
+  transform: translateY(0);
+
+  transition:
+    opacity 0.8s ease 1.5s,
+    transform 0.9s cubic-bezier(0.25, 0.1, 0.25, 1) 1.5s;
+}
+
+.scroll-next img {
+  width: 100%;
+}
+
+/* 화살표가 나타난 뒤 바운스 시작 */
+.main.is-active .scroll-next img {
+  animation: bounce 2.4s ease-in-out 2s infinite;
 }
 
 @keyframes bounce {
@@ -237,17 +340,26 @@ nav {
   stroke-dashoffset: 1500;
 }
 
+/* 처음에는 호선 애니메이션 정지 */
 .circle-1 {
-  animation: drawCircle 5s ease-in-out infinite;
+  animation: none;
 }
 
 .circle-2 {
   stroke-dasharray: 2000;
   stroke-dashoffset: 2000;
-  animation: drawCircle2 5s ease-in-out infinite;
-  animation-delay: 1.4s;
+  animation: none;
 }
 
+/* 화살표가 나온 뒤 첫 번째 호선 */
+.main.is-active .circle-1 {
+  animation: drawCircle 5s ease-in-out 2s infinite;
+}
+
+/* 첫 번째 호선보다 조금 늦게 두 번째 호선 */
+.main.is-active .circle-2 {
+  animation: drawCircle2 5s ease-in-out 3.2s infinite;
+}
 /* 애니메이션 */
 @keyframes drawCircle {
   0% {
@@ -570,6 +682,79 @@ body.is-light aside a.is-active {
   justify-content: center;
   align-items: center;
   gap: 2vw;
+}
+
+/* ========================================
+   PROJECT 페이지 진입 애니메이션
+======================================== */
+
+.work-motion {
+  position: relative;
+  overflow: hidden;
+}
+
+/* =========================
+   제목
+========================= */
+
+/* 처음에는 중앙에 있지만 왼쪽부터 가려진 상태 */
+.work-motion .section-title {
+  position: relative;
+  z-index: 2;
+
+  opacity: 1;
+
+  /* 제목 위치는 화면 중앙 */
+  transform: translateY(var(--title-center-shift, 0px));
+
+  /* 오른쪽 전체를 가림 */
+  clip-path: inset(0 100% 0 0);
+
+  transition:
+    transform 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+    clip-path 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+
+  will-change: transform, clip-path;
+}
+
+/* 1. 중앙에서 왼쪽 → 오른쪽으로 제목 등장 */
+.work-motion.is-title-only .section-title {
+  transform: translateY(var(--title-center-shift));
+  clip-path: inset(0 0 0 0);
+}
+
+/* 2. 제목은 보이는 상태 그대로 원래 위치로 올라감 */
+.work-motion.is-content-open .section-title {
+  transform: translateY(0);
+  clip-path: inset(0 0 0 0);
+}
+
+/* =========================
+   프로젝트 콘텐츠
+========================= */
+
+/* 처음에는 아래에 숨겨놓기 */
+.work-motion .project-item {
+  opacity: 0;
+  transform: translateY(90px);
+}
+
+/* 제목 이동 후 카드 순차 등장 */
+.work-motion.is-content-open .project-item {
+  animation: projectItemUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: var(--item-delay);
+}
+
+@keyframes projectItemUp {
+  0% {
+    opacity: 0;
+    transform: translateY(90px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .project-list .project-item {

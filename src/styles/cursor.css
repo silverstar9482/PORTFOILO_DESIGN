@@ -1,43 +1,97 @@
-body {
-  cursor: none; /* 기존 커서 숨기기 */
-}
+/* ========================================
+   CUSTOM CURSOR
+======================================== */
 
-/* 1. 모든 요소(버튼, 링크 등)에서 기본 손가락 모양 커서를 제거 */
-*,
-a,
-button,
-input,
-label,
-[role='button'] {
+/* 일반 영역에서는 시스템 커서 숨김 */
+body,
+body * {
   cursor: none;
 }
 
+/* 클릭 가능한 요소 + 내부 자식은 손가락 커서 */
+:is(
+  a,
+  button,
+  input,
+  label,
+  [role='button'],
+  .scroll-next,
+  .menu-trigger,
+  .project-trigger,
+  .modal-close-btn,
+  .modal-top-btn,
+  .modal-body img.has-link
+),
+:is(
+    a,
+    button,
+    input,
+    label,
+    [role='button'],
+    .scroll-next,
+    .menu-trigger,
+    .project-trigger,
+    .modal-close-btn,
+    .modal-top-btn
+  )
+  * {
+  cursor: pointer !important;
+}
+
+/* 커스텀 펜 */
 .custom-cursor {
   position: fixed;
   top: 0;
   left: 0;
+
   width: 1.6vw;
   height: 1.6vw;
+
   background: url('../assets/pen_cursor.svg') no-repeat center / 100%;
   background-size: cover;
-  pointer-events: none; /* 커서가 클릭을 방해하지 않도록 함 */
+
+  pointer-events: none;
   z-index: 99999;
+
+  opacity: 1;
+  visibility: visible;
+
+  transition: opacity 0.1s ease;
 }
 
-/* 모바일에서 커스텀 커서 숨김 처리 */
+/* 클릭 가능한 요소 위에서는 펜 숨김 */
+.custom-cursor.is-pointer {
+  opacity: 0;
+}
+
+/* 브라우저 밖으로 나갔을 때 */
+.custom-cursor.is-outside {
+  opacity: 0;
+}
+
+/* 모바일에서는 커스텀 커서 사용 안 함 */
 @media (hover: none) and (pointer: coarse) {
-  body .custom-cursor {
+  .custom-cursor {
     display: none;
   }
 
   body,
-  body *,
-  body a,
-  body button,
-  body input,
-  body label,
-  body [role='button'] {
+  body * {
     cursor: auto;
+  }
+
+  a,
+  button,
+  input,
+  label,
+  [role='button'],
+  .scroll-next,
+  .menu-trigger,
+  .project-trigger,
+  .modal-close-btn,
+  .modal-top-btn,
+  .modal-body img.has-link {
+    cursor: pointer;
   }
 }
 
