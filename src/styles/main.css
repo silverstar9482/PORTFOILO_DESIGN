@@ -161,15 +161,25 @@ nav {
    ABOUT 진입 애니메이션
 ========================= */
 
-/* 1. 프로필 사진 + 이름 + 이메일 전체 */
+/* 기본 상태
+   → 페이지에 도착하기 전에는 완전히 숨김 */
+#about .info-profile,
+#about .info-details {
+  opacity: 0;
+  transform: translateY(-140px);
+
+  animation: none;
+  will-change: opacity, transform;
+}
+
+/* 1. 프로필 사진 + 이름 + 이메일 */
 #about.is-active .info-profile {
   animation: aboutSlideDown 1.4s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-/* 2. 스킬 + 경력 전체 */
+/* 2. 스킬 + 경력 */
 #about.is-active .info-details {
-  animation: aboutSlideDown 1.5s cubic-bezier(0.22, 1, 0.36, 1) both;
-  animation-delay: 0.5s;
+  animation: aboutSlideDown 1.5s cubic-bezier(0.22, 1, 0.36, 1) 0.5s both;
 }
 
 /* 위에서 아래로 내려오는 효과 */

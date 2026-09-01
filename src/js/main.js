@@ -164,6 +164,7 @@ const updateLayoutState = (index) => {
   const isHome = index === 0;
   const isLight = section.id === 'about';
 
+  /* 모든 페이지 active 초기화 */
   sections.forEach((section) => {
     section.classList.remove('is-active');
   });
@@ -172,35 +173,38 @@ const updateLayoutState = (index) => {
     section.classList.add('is-active');
   });
 
-  // ASIDE 표시 여부
-  document.body.classList.toggle('show-aside', !isHome);
+  /* 현재 페이지 색상 상태 */
+  document.body.classList.toggle('is-light', isLight);
 
-  /* Home이면 여기서 끝 (aside 관련 계산 금지) */
+  menuTrigger.classList.toggle('dark', isLight);
+  menu.classList.toggle('dark', isLight);
+
+  /* HOME */
   if (isHome) {
+    document.body.classList.remove('show-aside');
     document.body.classList.remove('is-light');
 
-    // Home에서는 메뉴 상태 완전 초기화
-    menu.classList.remove('dark');
+    asideLinks.forEach((link) => {
+      link.classList.remove('is-active');
+    });
+
     menu.classList.remove('dark', 'is-open', 'is-closing');
     menuTrigger.classList.remove('dark', 'active');
 
     return;
   }
 
-  // About 밝은 배경 처리
-
-  document.body.classList.toggle('is-light', isLight);
-
-  menuTrigger.classList.toggle('dark', isLight);
-  menu.classList.toggle('dark', isLight);
-
-  // aside active 표시
+  /* 현재 페이지 ID와 같은 번호만 활성화 */
   asideLinks.forEach((link) => {
     const targetId = link.getAttribute('href').replace('#', '');
+
     link.classList.toggle('is-active', targetId === section.id);
   });
 
-  // About 진입 시 스킬 애니메이션
+  /* 페이지 번호 표시 */
+  document.body.classList.add('show-aside');
+
+  /* About 진입 시 스킬 애니메이션 */
   if (isLight) {
     setTimeout(animateSkills, 300);
   }
@@ -221,19 +225,20 @@ const goToSection = (index) => {
     prepareWorkSection(targetSection);
   }
 
+  /* 페이지 이동 중에는 페이지 번호 숨김 */
+  document.body.classList.remove('show-aside');
+
   /* 페이지 이동 */
   targetSection.scrollIntoView({
     behavior: 'smooth',
   });
 
-  /* HOME은 실제 화면에 도착한 뒤 is-active 적용 */
-  if (currentIndex !== 0) {
-    updateLayoutState(currentIndex);
-  }
-
   if (workPage) {
     /* 프로젝트 페이지 */
     waitForSectionArrival(targetSection, () => {
+      /* 페이지에 완전히 도착한 뒤 번호 표시 */
+      updateLayoutState(currentIndex);
+
       requestAnimationFrame(() => {
         targetSection.classList.add('is-title-only');
       });
@@ -268,9 +273,14 @@ const goToSection = (index) => {
     });
   } else {
     /* 일반 페이지 */
-    setTimeout(() => {
-      isScrolling = false;
-    }, 900);
+    waitForSectionArrival(targetSection, () => {
+      /* 페이지에 완전히 도착한 뒤 번호 표시 */
+      updateLayoutState(currentIndex);
+
+      setTimeout(() => {
+        isScrolling = false;
+      }, 900);
+    });
   }
 };
 
