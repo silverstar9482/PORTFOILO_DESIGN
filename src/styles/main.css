@@ -1638,6 +1638,7 @@ aside a.is-active {
     gap: 2.6rem;
     justify-content: center;
     align-items: center;
+    flex-wrap: nowrap;
   }
 
   .info-profile {

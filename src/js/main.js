@@ -504,6 +504,37 @@ scrollNext.addEventListener('click', () => {
 
 // 초기 로드
 window.addEventListener('load', () => {
+  const hash = window.location.hash.replace('#', '');
+
+  if (hash) {
+    const targetIndex = [...sections].findIndex((section) => section.id === hash);
+
+    if (targetIndex !== -1) {
+      currentIndex = targetIndex;
+
+      sections[currentIndex].scrollIntoView({
+        behavior: 'auto',
+        block: 'start',
+      });
+
+      updateLayoutState(currentIndex);
+
+      if (isWorkSection(sections[currentIndex])) {
+        prepareWorkSection(sections[currentIndex]);
+
+        requestAnimationFrame(() => {
+          sections[currentIndex].classList.add('is-title-only');
+
+          setTimeout(() => {
+            openWorkContent(sections[currentIndex]);
+          }, 900);
+        });
+      }
+
+      return;
+    }
+  }
+
   currentIndex = getCurrentSectionIndex();
   updateLayoutState(currentIndex);
 });
