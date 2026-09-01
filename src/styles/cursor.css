@@ -161,20 +161,30 @@ body.is-light .cursor-ripple.secondary {
   }
 }
 
+/* 태블릿 이하에서는 커스텀 마우스 효과 제거 */
 @media (max-width: 1024px) {
-  /* 물결 파장 */
-  /* 이중 파장 공통 */
-
-  /* 1차 파장 (안쪽) */
-  .cursor-ripple.primary {
-    width: 6rem;
-    height: 6rem;
+  .custom-cursor,
+  .cursor-ripple {
+    display: none !important;
   }
 
-  /* 2차 파장 (바깥) */
-  .cursor-ripple.secondary {
-    width: 12rem;
-    height: 12rem;
+  body,
+  body * {
+    cursor: auto;
+  }
+
+  a,
+  button,
+  input,
+  label,
+  [role='button'],
+  .scroll-next,
+  .menu-trigger,
+  .project-trigger,
+  .modal-close-btn,
+  .modal-top-btn,
+  .modal-body img.has-link {
+    cursor: pointer !important;
   }
 }
 

@@ -56,6 +56,13 @@ const setTitleCenterPosition = (section) => {
 const prepareWorkSection = (section) => {
   if (!isWorkSection(section)) return;
 
+  /* 프로젝트 페이지 진입 시 내부 목록 맨 위로 */
+  const projectList = section.querySelector('.project-list');
+
+  if (projectList) {
+    projectList.scrollTop = 0;
+  }
+
   /* 먼저 제목 중앙 위치 계산 */
   setTitleCenterPosition(section);
 
@@ -317,9 +324,34 @@ window.addEventListener(
       return;
     }
 
+    /* 페이지 이동 중 남은 휠 관성 차단 */
+    if (isScrolling) {
+      event.preventDefault();
+      return;
+    }
+
+    /* 모바일 프로젝트 목록 내부 스크롤 */
+    if (window.innerWidth <= 480) {
+      const projectList = event.target.closest('.project-list');
+
+      if (projectList) {
+        const maxScrollTop = projectList.scrollHeight - projectList.clientHeight;
+
+        const canScrollDown = event.deltaY > 0 && projectList.scrollTop < maxScrollTop - 2;
+
+        const canScrollUp = event.deltaY < 0 && projectList.scrollTop > 2;
+
+        /* 목록을 더 스크롤할 수 있으면
+           페이지 이동을 막지 않고 목록만 스크롤 */
+        if (canScrollDown || canScrollUp) {
+          return;
+        }
+      }
+    }
+
     event.preventDefault();
 
-    if (isScrolling || wheelThrottle) return;
+    if (wheelThrottle) return;
 
     if (Math.abs(event.deltaY) < 40) return;
 
@@ -352,13 +384,28 @@ window.addEventListener(
 
 // 모바일 터치 스와이프 처리
 let touchStartY = 0;
+let touchProjectList = null;
+let touchProjectStartTop = 0;
+let touchProjectMaxTop = 0;
+
 const SWIPE_THRESHOLD = 50;
 
 document.body.addEventListener(
   'touchstart',
   (e) => {
     if (isModalOpen) return;
+
     touchStartY = e.touches[0].clientY;
+
+    touchProjectList = window.innerWidth <= 480 ? e.target.closest('.project-list') : null;
+
+    if (touchProjectList) {
+      touchProjectStartTop = touchProjectList.scrollTop;
+      touchProjectMaxTop = touchProjectList.scrollHeight - touchProjectList.clientHeight;
+    } else {
+      touchProjectStartTop = 0;
+      touchProjectMaxTop = 0;
+    }
   },
   { passive: true },
 );
@@ -373,7 +420,22 @@ document.body.addEventListener(
 
     if (Math.abs(deltaY) < SWIPE_THRESHOLD) return;
 
+    /* 프로젝트 목록이 실제로 스크롤 가능한 경우에만
+   페이지 이동 대신 내부 스크롤 */
+    if (touchProjectList) {
+      const canScrollDown = deltaY > 0 && touchProjectStartTop < touchProjectMaxTop - 2;
+
+      const canScrollUp = deltaY < 0 && touchProjectStartTop > 2;
+
+      touchProjectList = null;
+
+      if (canScrollDown || canScrollUp) {
+        return;
+      }
+    }
+
     closeMenu();
+
     currentIndex = getCurrentSectionIndex();
 
     if (deltaY > 0 && currentIndex < sections.length - 1) {
