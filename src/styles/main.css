@@ -1631,10 +1631,6 @@ aside a.is-active {
   }
 
   .about-info {
-    padding-top: 0;
-  }
-
-  .about-info {
     padding-top: 7rem;
     gap: 2rem;
     justify-content: flex-start;
@@ -1730,15 +1726,8 @@ aside a.is-active {
     }
   }
 
-  /* 모바일은 검정 띠만 유지 */
+  /* 모바일에서는 About 하단 검정 영역 제거 */
   .about-footer {
-    display: block;
-    min-height: 4rem;
-    padding: 0;
-  }
-
-  /* 문구만 숨김 */
-  .about-footer p {
     display: none;
   }
 
