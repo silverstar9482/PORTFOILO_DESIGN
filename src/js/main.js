@@ -671,3 +671,5 @@ modalImage.addEventListener('click', () => {
 
   window.open(currentProjectLink, '_blank', 'noopener');
 });
+
+alert(`width: ${window.innerWidth}px`);
