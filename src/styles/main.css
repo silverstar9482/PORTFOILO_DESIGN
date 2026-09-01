@@ -1732,16 +1732,16 @@ aside a.is-active {
   }
 
   /* 모바일은 검정 띠만 유지 */
-  /* .about-footer {
+  .about-footer {
     display: block;
     min-height: 4rem;
     padding: 0;
-  } */
+  }
 
   /* 문구만 숨김 */
-  /* .about-footer p {
+  .about-footer p {
     display: none;
-  } */
+  }
 
   /* 공통 */
   .section-title {
