@@ -423,27 +423,52 @@ aside ul {
   gap: 1.6rem;
 }
 
+aside {
+  display: none;
+  position: fixed;
+  left: 2%;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 888;
+
+  /* 실제 뒤 배경색에 맞춰 자동 반전 */
+  mix-blend-mode: difference;
+}
+
+/* Home 제외한 페이지에서만 표시 */
+body.show-aside aside {
+  display: block;
+}
+
+aside ul {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+}
+
+/* 페이지 번호 */
 aside a {
   width: 1rem;
   height: 1rem;
   border-radius: 50%;
   display: block;
   font-size: 0;
-  background-color: #555;
-}
 
-/* 활성 dot (기본 다크 배경) */
-aside a.is-active {
+  /* 항상 흰색을 기준으로 두고 배경에 따라 자동 반전 */
   background-color: #fff;
+
+  opacity: 0.1;
+  transform: scale(1);
+
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
 }
 
-/* About (밝은 배경) */
-body.is-light aside a {
-  background-color: #e5e5e5;
-}
-
-body.is-light aside a.is-active {
-  background-color: #000;
+/* 현재 페이지 */
+aside a.is-active {
+  opacity: 1;
+  transform: scale(1.15);
 }
 
 /* About */
@@ -452,11 +477,6 @@ body.is-light aside a.is-active {
   flex-direction: column;
   justify-content: space-between;
   background-color: #fff;
-}
-/* about 배경 전체 흰색 */
-#about {
-  box-shadow: 0 0 0 100vmax #fff; /* 추가: 양옆으로 흰색 확장 */
-  clip-path: inset(0 -100vmax); /* 위아래는 자르고 좌우만 확장 */
 }
 
 .about-info {
@@ -630,8 +650,6 @@ body.is-light aside a.is-active {
   padding: 4.5vmin 0;
   font-size: 1vw;
   text-align: center;
-  box-shadow: 0 0 0 100vmax #000;
-  clip-path: inset(0 -100vmax);
 
   p {
     display: inline-block;
@@ -717,12 +735,11 @@ body.is-light aside a.is-active {
   /* 제목 위치는 화면 중앙 */
   transform: translateY(var(--title-center-shift, 0px));
 
-  /* 오른쪽 전체를 가림 */
+  /* 처음에는 완전히 가려짐 */
   clip-path: inset(0 100% 0 0);
 
-  transition:
-    transform 0.9s cubic-bezier(0.22, 1, 0.36, 1),
-    clip-path 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  /* 초기화할 때는 애니메이션 없이 즉시 숨김 */
+  transition: none;
 
   will-change: transform, clip-path;
 }
@@ -731,12 +748,18 @@ body.is-light aside a.is-active {
 .work-motion.is-title-only .section-title {
   transform: translateY(var(--title-center-shift));
   clip-path: inset(0 0 0 0);
+
+  /* 페이지 도착 후 글자 등장 */
+  transition: clip-path 0.8s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /* 2. 제목은 보이는 상태 그대로 원래 위치로 올라감 */
 .work-motion.is-content-open .section-title {
   transform: translateY(0);
   clip-path: inset(0 0 0 0);
+
+  /* 제목 등장 후 원래 위치로 이동 */
+  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /* =========================

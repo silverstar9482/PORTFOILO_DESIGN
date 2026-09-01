@@ -158,6 +158,19 @@ const getCurrentSectionIndex = () => {
   return closestIndex;
 };
 
+const syncFixedUI = () => {
+  const visibleIndex = getCurrentSectionIndex();
+  const visibleSection = sections[visibleIndex];
+
+  const isHome = visibleIndex === 0;
+  const isLight = visibleSection.id === 'about';
+
+  document.body.classList.toggle('is-light', isLight);
+
+  menuTrigger.classList.toggle('dark', isLight);
+  menu.classList.toggle('dark', isLight);
+};
+
 // 레이아웃 상태 관리
 const updateLayoutState = (index) => {
   const section = sections[index];
@@ -214,23 +227,33 @@ const updateLayoutState = (index) => {
 const goToSection = (index) => {
   if (isScrolling) return;
 
+  const previousIndex = currentIndex;
+
   isScrolling = true;
   currentIndex = index;
 
   const targetSection = sections[currentIndex];
   const workPage = isWorkSection(targetSection);
 
+  const isLongJump = Math.abs(currentIndex - previousIndex) > 1;
+
+  /* 이동 시작과 동시에 목적지 페이지 번호 활성화 */
+  if (currentIndex !== 0) {
+    asideLinks.forEach((link) => {
+      const targetId = link.getAttribute('href').replace('#', '');
+
+      link.classList.toggle('is-active', targetId === targetSection.id);
+    });
+  }
+
   /* 프로젝트 페이지 초기화 */
   if (workPage) {
     prepareWorkSection(targetSection);
   }
 
-  /* 페이지 이동 중에는 페이지 번호 숨김 */
-  document.body.classList.remove('show-aside');
-
   /* 페이지 이동 */
   targetSection.scrollIntoView({
-    behavior: 'smooth',
+    behavior: isLongJump ? 'auto' : 'smooth',
   });
 
   if (workPage) {
@@ -249,7 +272,7 @@ const goToSection = (index) => {
 
       setTimeout(() => {
         isScrolling = false;
-      }, 2200);
+      }, 1200);
     });
   } else if (currentIndex === 0) {
     /* =========================
@@ -269,7 +292,7 @@ const goToSection = (index) => {
 
       setTimeout(() => {
         isScrolling = false;
-      }, 900);
+      }, 500);
     });
   } else {
     /* 일반 페이지 */
@@ -279,7 +302,7 @@ const goToSection = (index) => {
 
       setTimeout(() => {
         isScrolling = false;
-      }, 900);
+      }, 500);
     });
   }
 };
@@ -423,12 +446,18 @@ window.addEventListener('load', () => {
   updateLayoutState(currentIndex);
 });
 
-// 스크롤 시 인덱스 동기화
+// 스크롤 시 고정 UI 색상 실시간 동기화
 let syncTimeout;
+
 window.addEventListener('scroll', () => {
+  /* 스크롤 중에도 현재 화면 배경에 맞게 바로 색상 변경 */
+  syncFixedUI();
+
   clearTimeout(syncTimeout);
+
   syncTimeout = setTimeout(() => {
     if (!isScrolling) {
+      currentIndex = getCurrentSectionIndex();
       updateLayoutState(currentIndex);
     }
   }, 150);
