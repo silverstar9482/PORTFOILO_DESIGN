@@ -13,7 +13,6 @@ const modalContainer = modal.querySelector('.modal-container');
 const modalTitle = modal.querySelector('.modal-title');
 const metaItems = modal.querySelectorAll('.project-meta-item');
 const modalImage = modal.querySelector('.modal-body img');
-const modalImg = modal.querySelector('.modal-body img');
 
 let currentIndex = 0;
 let isScrolling = false;
@@ -557,12 +556,12 @@ window.addEventListener('scroll', () => {
 });
 
 // modal
-// 프로젝트 썸네일 클릭 → 모달 열기
-document.querySelectorAll('.project-trigger').forEach((trigger) => {
-  trigger.addEventListener('click', () => {
-    openModal();
-  });
-});
+
+// 모달 이미지 클릭시 프로젝트 해당 링크로 이동
+let currentProjectLink = null;
+let modalLoadId = 0;
+let spinnerTimer = null;
+let modalCloseTimer = null;
 
 // 모달 오픈 시 페이지 스크롤 차단
 modalContainer.addEventListener(
@@ -574,6 +573,8 @@ modalContainer.addEventListener(
 );
 
 const openModal = () => {
+  clearTimeout(modalCloseTimer);
+
   modal.classList.add('is-open');
   document.body.classList.add('is-modal-open'); // 모달열면 메뉴 숨김
   document.body.style.overflow = 'hidden';
@@ -583,6 +584,12 @@ const openModal = () => {
 
 // 모달 닫을 때 페이지 스크롤 관성 차단
 const closeModal = () => {
+  // 진행 중인 이미지 로딩 결과 무효화
+  modalLoadId++;
+
+  clearTimeout(spinnerTimer);
+  clearTimeout(modalCloseTimer);
+
   // 애니메이션 시작
   modal.classList.remove('is-open');
   document.body.classList.remove('is-modal-open'); // 모달닫으면 메뉴 복귀
@@ -596,7 +603,9 @@ const closeModal = () => {
 
   // 관성 스크롤 차단 시간 (500ms~800ms 정도로 넉넉히)
   // 이 시간 동안은 wheel 이벤트 내부의 if(isModalOpen) 조건에 걸려 아무 일도 안 일어남
-  setTimeout(() => {
+  modalCloseTimer = setTimeout(() => {
+    modal.classList.remove('loading');
+
     isModalOpen = false;
     isScrolling = false; // 혹시나 남아있을 플래그 초기화
   }, 800);
@@ -627,6 +636,7 @@ topBtn.addEventListener('click', () => {
 });
 
 // 프로젝트별 모달 내용 교체
+// 프로젝트 클릭
 document.querySelectorAll('.project-trigger').forEach((trigger) => {
   trigger.addEventListener('click', () => {
     const title = trigger.dataset.title;
@@ -635,64 +645,70 @@ document.querySelectorAll('.project-trigger').forEach((trigger) => {
     const rate = trigger.dataset.rate;
     const image = trigger.dataset.image;
 
-    // 제목
-    modalTitle.textContent = title;
+    // 이번 클릭의 고유 번호
+    const loadId = ++modalLoadId;
 
-    // 메타 정보
-    metaItems[0].textContent = `작업기간 : ${period}`;
-    metaItems[1].textContent = `작업툴 : ${tool}`;
-    metaItems[2].textContent = `기여도 : ${rate}`;
+    const img = new Image();
 
-    // 이미지
-    modalImage.src = image;
-    modalImage.alt = title;
-  });
-});
+    clearTimeout(spinnerTimer);
 
-// 모달 - 로딩스피너
-// 모달 열 때
-function openModalWithLoader({ image }) {
-  // 1. 로딩 상태 ON
-  modal.classList.add('loading');
-  modal.classList.add('open');
+    // 300ms 이상 걸릴 때만 모달 + 스피너 표시
+    spinnerTimer = setTimeout(() => {
+      // 이미 취소된 요청이면 아무것도 하지 않음
+      if (loadId !== modalLoadId) return;
 
-  // 2. 기존 이미지 강제 초기화 (잔상 방지 핵심)
-  modalImg.src = '';
+      modal.classList.add('loading');
+      openModal();
+    }, 300);
 
-  // 3. 새 이미지 객체 생성 (프리로드)
-  const img = new Image();
-  img.src = image;
+    img.onload = () => {
+      // 이미 닫았거나 다른 프로젝트를 클릭했다면 무시
+      if (loadId !== modalLoadId) return;
 
-  img.onload = () => {
-    // 4. 이미지 교체
-    modalImg.src = image;
+      clearTimeout(spinnerTimer);
 
-    // 5. 로딩 종료
-    modal.classList.remove('loading');
-  };
-}
+      // 새 프로젝트 내용 세팅
+      modalTitle.textContent = title;
 
-document.querySelectorAll('.project-item button').forEach((btn) => {
-  btn.addEventListener('click', () => {
-    openModalWithLoader({
-      image: btn.dataset.image,
-      title: btn.dataset.title,
-      period: btn.dataset.period,
-      tool: btn.dataset.tool,
-      rate: btn.dataset.rate,
-    });
-  });
-});
+      metaItems[0].textContent = `작업기간 : ${period}`;
+      metaItems[1].textContent = `작업툴 : ${tool}`;
+      metaItems[2].textContent = `기여도 : ${rate}`;
 
-// 모달 이미지 클릭시 프로젝트 해당 링크로 이동
-let currentProjectLink = null;
+      modalImage.src = image;
+      modalImage.alt = title;
 
-// 프로젝트 클릭 시
-document.querySelectorAll('.project-trigger').forEach((trigger) => {
-  trigger.addEventListener('click', () => {
-    currentProjectLink = trigger.dataset.link || null;
+      // 프로젝트 링크
+      currentProjectLink = trigger.dataset.link || null;
+      modalImage.classList.toggle('has-link', Boolean(currentProjectLink));
 
-    modalImage.classList.toggle('has-link', Boolean(currentProjectLink));
+      // 스피너가 떠 있었다면 제거
+      modal.classList.remove('loading');
+
+      // 300ms 전에 로딩 끝난 경우 여기서 바로 모달 오픈
+      if (!modal.classList.contains('is-open')) {
+        openModal();
+      }
+    };
+
+    img.onerror = () => {
+      // 이미 취소된 요청이면 무시
+      if (loadId !== modalLoadId) return;
+
+      clearTimeout(spinnerTimer);
+
+      // 이미 스피너 모달이 열린 경우만 닫기
+      if (modal.classList.contains('is-open')) {
+        closeModal();
+      } else {
+        // 300ms 이전에 실패해서 모달이 열리지 않은 경우
+        modal.classList.remove('loading');
+      }
+
+      console.error('모달 이미지 로딩 실패:', image);
+    };
+
+    // 이미지 로딩 시작
+    img.src = image;
   });
 });
 
